@@ -1,0 +1,32 @@
+// Your custom theme/variable overrides go here
+
+// Body
+// $white:#ddd;
+$gray-300:#6e6e6f;
+$gray-400:#444445;
+$gray-700:#2d2d2f;
+$gray-700:rgba(50,50,50,0.9);
+$gray-800:#1d1d1f;
+$gray-900:#0e0e0f;
+$primary:#541c94;
+$secondary:#8363a9;
+// $success:#1c6821;
+// $danger:#FF304F;
+// $info:#0F81C7;
+// $warning:#f0df0b;
+// $light:#e8e8e8;
+// $dark:#000000;
+// $enable-shadows:true;
+
+// $body-bg:#020202;
+$body-color:#cccccc;
+// $link-color:#f0f0f0;
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap'); 
+$font-family-base: 'Open Sans';
+$headings-font-family: 'Open Sans';
+
+// Required parts of Bootstrap
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
