@@ -17,6 +17,9 @@ code {
 .app {
 	padding: 0;
 	margin: 0;
+	main {
+		padding: 0;
+	}
 }
 
 .sidebar-logo {
@@ -34,4 +37,79 @@ code {
 	@media (max-width: $breakpoint-md) {
 		margin-left: 0 !important;
 	}
+}
+
+.welcome-container {
+	transition: all 0.5s;
+	display: flex;
+	flex-direction: column;
+	color: $primary;
+	user-select: none;
+}
+
+.noselect {
+	user-select: none;
+}
+
+.clock-container {
+	text-align: center;
+	background-color: rgba($primary, 0.2);
+	border-radius: 1rem;
+	padding: 0.8rem 1.4rem;
+	transition: all 0.5s;
+}
+
+h1 {
+	font-weight: 600;
+}
+
+p {
+	font-weight: 500;
+}
+
+.dash-minified {
+	h1 {
+		font-size: $h1-font-size * 0.5;
+		font-weight: 600;
+	}
+
+	h2 {
+		font-size: $h2-font-size * 0.5;
+	}
+
+	h3 {
+		font-size: $h3-font-size * 0.5;
+	}
+
+	p {
+		font-size: 0.9rem;
+	}
+
+	.display-3 {
+		font-size: $display3-size * 0.8;
+	}
+
+	.display-4 {
+		font-size: $display4-size * 0.8;
+	}
+
+	.clock-container {
+		display: none;
+	}
+
+	.music-container {
+		display: none;
+	}
+
+	.btn-primary.btn-sm {
+		visibility: hidden;
+	}
+}
+
+.bottom-right {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: end;
+	align-items: end;
 }
