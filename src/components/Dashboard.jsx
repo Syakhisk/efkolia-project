@@ -1,14 +1,11 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
+import React from "react";
 
 function Dashboard() {
-  return (
-    <div>
-      This is dashboard
-      <Button variant='primary'>This is Primary</Button>
-      <Button variant='secondary'>This is Secondary</Button>
-    </div>
-  )
+	return (
+		<div>
+			<h1>this is dashboard</h1>
+		</div>
+	);
 }
 
-export default Dashboard
+export default Dashboard;

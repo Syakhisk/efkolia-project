@@ -1,12 +1,10 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
-import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav"
 import { NavDropdown } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
 
 function NavbarComp() {
 	return (

@@ -1,0 +1,37 @@
+@import "./custom.scss";
+
+body {
+	// background-color: #212223;
+	background-color: #494949;
+	// color: white;
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+
+.app {
+	padding: 0;
+	margin: 0;
+}
+
+.sidebar-logo {
+	width: 60px;
+}
+
+.sidebar {
+	background-color: $gray-300;
+	width: 240px;
+}
+
+.content {
+	width: 100%;
+	transition: margin 0.3s;
+	@media (max-width: $breakpoint-md) {
+		margin-left: 0 !important;
+	}
+}

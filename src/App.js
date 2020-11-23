@@ -1,39 +1,60 @@
-import Switch from "react-router-dom/Switch";
-import Route from "react-router-dom/Route";
+import { useState, useRef, useEffect } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import Timetable from "./components/Timetable";
 import Login from "./components/Login";
-import Signup from "./components/Signup";
 import NotFound from "./components/NotFound";
-import Navbar from './components/NavbarComp'
-import Sidebar from './components/Sidebar'
+import Navbar from "./components/NavbarComp";
+import Sidebar from "./components/Sidebar";
+import Signup from "./components/Signup";
+import Timetable from "./components/Timetable";
 
-function App(props) {
+import "./styles/app.scss";
+
+function App() {
+	const [collapsed, setCollapsed] = useState(false);
+	const [toggled, setToggled] = useState(false);
+	const [contentMargin, setContentMargin] = useState(0);
+	const location = useLocation().pathname;
+
+	const handleCollapsedChange = (checked) => {
+		setCollapsed(checked);
+	};
+
+	const handleToggleSidebar = (value) => {
+		setToggled(value);
+	};
+
 	const renderedRouting = (
 		<Switch>
 			<Route path='/' exact component={Dashboard} />
 			<Route path='/timetable' component={Timetable}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>
-			<Route path='*' component={NotFound} />
+			<Route path='/404' component={NotFound} />
+			<Redirect to='/404' />
 		</Switch>
 	);
 
-	const renderedNav = (
-		<>
-			<Navbar />
-			<Sidebar />
-		</>
-	);
+	if (location === "/404" || location === "/login" || location === "/signup") {
+		return <>{renderedRouting}</>;
+	}
 
 	return (
-    <div>
-      {renderedNav}
-      <div className="content">
-        {renderedRouting}
-      </div>
-    </div>
-  );
+		<div className={`app ${toggled ? "toggled" : ""}`}>
+			<Sidebar
+				collapsed={collapsed}
+				toggled={toggled}
+				handleToggleSidebar={handleToggleSidebar}
+				handleCollapsedChange={handleCollapsedChange}
+			/>
+
+			<div className='content' style={{ marginLeft: collapsed ? 80 : 270 }}>
+				<Navbar />
+				<main>{renderedRouting}</main>
+			</div>
+		</div>
+	);
 }
 
 export default App;
