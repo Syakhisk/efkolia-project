@@ -7,7 +7,7 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import user from "../objects/user";
 
 function Dashboard() {
-	const [headerStyle, setHeaderStyle] = useState("fullheight");
+	// const [headerStyle, setHeaderStyle] = useState("fullheight");
 	const [fullHeight, setFullHeight] = useState(true);
 	const size = useWindowSize();
 
@@ -18,12 +18,6 @@ function Dashboard() {
 		backgroundPosition: "center",
 		height: fullHeight ? size.height - 56 : "200px",
 		transition: "0.3s",
-	};
-
-	const buttonStyling = {
-		opacity: fullHeight ? 1 : 0,
-		transform: `rotate(${fullHeight ? 0 : 180}deg)`,
-		transition: "all 0.5s ease-in",
 	};
 
 	useEffect(() => {
@@ -58,6 +52,8 @@ function Dashboard() {
 
 	// console.log(user.getTaskWithStatus(0).map(t => t.name).join(", "));
 
+	console.log(fullHeight)
+	
 	return (
 		<div>
 			<Container
@@ -67,11 +63,11 @@ function Dashboard() {
 				}`}
 				style={headerStyling}>
 				<Row>
-					<Col md={9} className='pb-3'>
+					<Col sm md={9} className='pb-2 pb-sm-1'>
 						<div className='display-4'>
 							Hello, {user.name}
 							<Button
-								className='ml-3'
+								className='ml-2 ml-lg-3'
 								variant='outline-primary'
 								size='sm'
 								onClick={() => handleFullHeight(true)}>
@@ -79,26 +75,24 @@ function Dashboard() {
 							</Button>
 						</div>
 					</Col>
-					<Col className='d-flex justify-content-sm-start'>
+					{/* <Col sm className='d-flex justify-content-sm-start'>
 						<div className='clock-container'>
 							<h3 className='mb-0'>Tuesday, June 9th</h3>
 							<div className='display-3 mb-0'>16:00</div>
 						</div>
-					</Col>
+					</Col> */}
 				</Row>
-
-				<h3>You have:</h3>
-				<Row className='mb-5'>
-					<Col className='d-flex flex-column'>
+				
+				<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
+				<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
+					<Col sm className='d-flex flex-column'>
 						<h1>Class at 14:00, Today</h1>
 						<p style={truncate}>Web Programming</p>
 						<div className='bottom-right'>
-							<Button className='btn-primary btn-sm'>
-								Go to Timetables
-							</Button>
+							<Button className='btn-primary btn-sm'>Go to Timetables</Button>
 						</div>
 					</Col>
-					<Col className='d-flex flex-column'>
+					<Col sm className='d-flex flex-column'>
 						<h1>{user.getTaskWithStatus(0).length} Task(s)</h1>
 						<p style={truncate}>
 							{user
@@ -110,7 +104,7 @@ function Dashboard() {
 							<Button className='btn-primary btn-sm'>Go to Tasks</Button>
 						</div>
 					</Col>
-					<Col className='d-flex flex-column'>
+					<Col sm className='d-flex flex-column'>
 						<h1>{user.getAgendaWithStatus(0).length} Agenda(s)</h1>
 						<p style={truncate}>
 							{user

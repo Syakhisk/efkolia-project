@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
 	ProSidebar,
 	Menu,
 	MenuItem,
-	SubMenu,
 	SidebarHeader,
 	SidebarFooter,
 	SidebarContent,
@@ -31,7 +30,15 @@ function Sidebar(props) {
 			breakPoint='md'
 			onToggle={handleToggleSidebar}>
 			<SidebarHeader>
-				<div className='sidebar-brand-header'>Efkolia</div>
+				<div className='sidebar-brand-header'>
+					<img
+						src={logo}
+						style={{ height: "23px" }}
+						className='mr-4'
+						alt='efkolia logo'
+					/>
+					<span>Efkolia</span>
+				</div>
 			</SidebarHeader>
 
 			<SidebarContent>
@@ -56,9 +63,7 @@ function Sidebar(props) {
 					))}
 				</Menu>
 
-				<Menu
-					iconShape='circle'
-					className={collapsed ? "" : "d-flex justify-content-center"}>
+				<Menu iconShape='circle' id='toggle-collapsed'>
 					<MenuItem
 						icon={collapsed ? <MdChevronRight /> : <MdChevronLeft />}
 						onClick={() => handleCollapsedChange(!collapsed)}

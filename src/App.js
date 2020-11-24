@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
@@ -14,7 +13,7 @@ import "./styles/app.scss";
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
 	const [toggled, setToggled] = useState(false);
-	const [contentMargin, setContentMargin] = useState(0);
+	// const [contentMargin, setContentMargin] = useState(0);
 	const location = useLocation().pathname;
 
 	const handleCollapsedChange = (checked) => {
@@ -27,7 +26,7 @@ function App() {
 
 	const renderedRouting = (
 		<Switch>
-			<Route path='/' exact component={Dashboard} />
+			<Route path='/' exact component={() => <Dashboard />} />
 			<Route path='/timetable' component={Timetable}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>

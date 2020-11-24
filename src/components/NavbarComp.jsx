@@ -5,14 +5,14 @@ import { NavDropdown } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { FormControl } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import useDimensions from "react-use-dimensions";
+// import useDimensions from "react-use-dimensions";
 
 
 function NavbarComp() {
-	const [navbarRef, navbarSize] = useDimensions();
+	// const [navbarRef, navbarSize] = useDimensions();
 	
 	return (
-		<div ref={navbarRef} className='Navbar sticky-top'>
+		<div className='Navbar sticky-top'>
 			<Navbar bg='dark' expand='lg' variant='dark'>
 				<Navbar.Brand href='#home'>Placeholder</Navbar.Brand>
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />

@@ -16,11 +16,11 @@ const user = {
 	],
 
 	getTaskWithStatus: function(status) {
-		return this.tasks.filter(task => task.status == status)
+		return this.tasks.filter(task => task.status === status)
 	},
 
 	getAgendaWithStatus: function(status) {
-		return this.agendas.filter(task => task.status == status)
+		return this.agendas.filter(task => task.status === status)
 	},
 	
 	tasks: [

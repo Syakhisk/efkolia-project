@@ -20,15 +20,29 @@ code {
 	main {
 		padding: 0;
 	}
+	transition: translateZ(0);
 }
 
 .sidebar-logo {
-	width: 60px;
+	width: 40px;
 }
 
 .sidebar {
 	background-color: $gray-300;
 	width: 240px;
+}
+
+#toggle-collapsed {
+	display: flex;
+	justify-content: center;
+
+	.pro-inner-item {
+		padding: 8px 20px;
+
+		.pro-icon-wrapper {
+			margin: 0;
+		}
+	}
 }
 
 .content {
@@ -40,11 +54,14 @@ code {
 }
 
 .welcome-container {
-	transition: all 0.5s;
 	display: flex;
 	flex-direction: column;
 	color: $primary;
 	user-select: none;
+
+	* {
+		transition: all 0.3s;
+	}
 }
 
 .noselect {
@@ -56,7 +73,6 @@ code {
 	background-color: rgba($primary, 0.2);
 	border-radius: 1rem;
 	padding: 0.8rem 1.4rem;
-	transition: all 0.5s;
 }
 
 h1 {
@@ -94,14 +110,23 @@ p {
 	}
 
 	.clock-container {
-		display: none;
+		opacity: 0;
+		height: 0;
+		visibility: hidden;
+		transition-delay: 0.2s;
+
+		* {
+			font-size: 0;
+		}
 	}
 
 	.music-container {
-		display: none;
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	.btn-primary.btn-sm {
+		opacity: 0;
 		visibility: hidden;
 	}
 }
@@ -110,6 +135,13 @@ p {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	justify-content: end;
-	align-items: end;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+.hideDetails {
+	@include media-breakpoint-down(md) {
+		opacity: 0;
+		visibility: hidden;
+	}
 }

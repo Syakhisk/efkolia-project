@@ -12,6 +12,7 @@ function Dashboard() {
 
 	useEffect(() => {
 		console.log(window.scrollY)
+		// eslint-disable-next-line
 	}, [window.scrollY])
 
 	const handleScroll = (e) => {
