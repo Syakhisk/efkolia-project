@@ -73,9 +73,7 @@ function Sidebar(props) {
 
 			<SidebarFooter>
 				<Menu iconShape='circle'>
-					<MenuItem
-						icon={<MdPerson />}
-						onClick={() => handleCollapsedChange(!collapsed)}>
+					<MenuItem icon={<MdPerson />}>
 						<NavLink to='/profile'>User Profile</NavLink>
 					</MenuItem>
 				</Menu>

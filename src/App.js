@@ -26,7 +26,11 @@ function App() {
 
 	const renderedRouting = (
 		<Switch>
-			<Route path='/' exact component={() => <Dashboard />} />
+			<Route
+				path='/'
+				exact
+				render={(props) => <Dashboard {...props} collapsed={collapsed} />}
+			/>
 			<Route path='/timetable' component={Timetable}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>

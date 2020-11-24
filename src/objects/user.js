@@ -19,6 +19,10 @@ const user = {
 		return this.tasks.filter(task => task.status === status)
 	},
 
+	getUnfinishedTask: function() {
+		return this.tasks.filter(task => task.status != 3)
+	},
+
 	getAgendaWithStatus: function(status) {
 		return this.agendas.filter(task => task.status === status)
 	},
@@ -28,20 +32,23 @@ const user = {
 			name: "Finish web programming",
 			status: 0,
 			classcode: "wp",
+			classname: "Web Programming",
 			deadline: "13/12/2020 20:00",
 			description: "this is description",
 		},
 		{
 			name: "Upload video tutorial",
-			status: 0,
+			status: 3,
 			classcode: "wp",
+			classname: "Web Programming",
 			deadline: "14/12/2020 20:00",
 			description: "this is description",
 		},
 		{
 			name: "BST Powerpoint",
-			status: 0,
+			status: 1,
 			classcode: "ds",
+			classname: "Data Structure",
 			deadline: "15/12/2020 20:00",
 			description: "this is description",
 		},

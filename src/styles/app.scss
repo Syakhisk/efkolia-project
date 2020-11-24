@@ -145,3 +145,49 @@ p {
 		visibility: hidden;
 	}
 }
+
+/*
+CAROUSEL
+*/
+
+.slider-container {
+	background-color: $gray-700;
+}
+
+// .caro-item {
+// 	white-space: nowrap;
+// 	// overflow: hidden;
+// 	// text-overflow: ellipsis;
+// }
+
+.slick-list {
+	margin: 0 -5px;
+}
+.slick-slide {
+	overflow: hidden;
+	div {
+		padding: 0 5px;
+	}
+	h4 {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+	h6 {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+}
+
+.badge {
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}

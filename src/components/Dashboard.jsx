@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import headerBg from "../assets/landscape-background.jpg";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { useWindowSize } from "../hooks/useWindowSize";
+import useDimensions from "react-use-dimensions";
+
+import CardCarousel from "./CardCarousel";
 
 import user from "../objects/user";
 
-function Dashboard() {
-	// const [headerStyle, setHeaderStyle] = useState("fullheight");
+function Dashboard(props) {
 	const [fullHeight, setFullHeight] = useState(true);
 	const size = useWindowSize();
+	// const [dashboardRef, dashboardSize] = useDimensions();
+
+	const contentRef = useRef(0)
 
 	const headerStyling = {
 		background: "#a3a3a3",
@@ -51,11 +56,10 @@ function Dashboard() {
 	};
 
 	// console.log(user.getTaskWithStatus(0).map(t => t.name).join(", "));
+	// console.log(dashboardSize);
 
-	console.log(fullHeight)
-	
 	return (
-		<div>
+		<div id="content-wrapper" ref={contentRef}>
 			<Container
 				fluid
 				className={`welcome-container p-3 ${
@@ -82,7 +86,7 @@ function Dashboard() {
 						</div>
 					</Col> */}
 				</Row>
-				
+
 				<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
 				<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
 					<Col sm className='d-flex flex-column'>
@@ -93,10 +97,10 @@ function Dashboard() {
 						</div>
 					</Col>
 					<Col sm className='d-flex flex-column'>
-						<h1>{user.getTaskWithStatus(0).length} Task(s)</h1>
+						<h1>{user.getUnfinishedTask().length} Task(s)</h1>
 						<p style={truncate}>
 							{user
-								.getTaskWithStatus(0)
+								.getUnfinishedTask()
 								.map((t) => t.name)
 								.join(", ")}
 						</p>
@@ -137,12 +141,14 @@ function Dashboard() {
 					</Button>
 				</div>
 			</Container>
-			<div id='header'>
-				<h1>This is the header</h1>
-			</div>
-			<div id='section_1' className='section'>
-				This is section 1
-			</div>
+
+			<Container fluid>
+				<CardCarousel
+					items={user.tasks}
+					collapsed={props.collapsed}
+					contentRef={contentRef}
+				/>
+			</Container>
 		</div>
 	);
 }
