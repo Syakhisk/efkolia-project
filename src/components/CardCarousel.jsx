@@ -2,7 +2,6 @@ import React from "react";
 import Slider from "react-slick";
 import { useWindowSize } from "../hooks/useWindowSize";
 
-import user from "../objects/user";
 
 import "../styles/carousel.scss";
 
@@ -44,7 +43,6 @@ function CardCarousel({ items, collapsed, contentRef }) {
 
   const size = useWindowSize();
 
-  const contentWidth = contentRef.current.offsetWidth;
   const tolerance = 55;
   const sidebarSize = 270 + tolerance;
   const sidebarCollapsedSize = 80 + tolerance;
@@ -52,15 +50,15 @@ function CardCarousel({ items, collapsed, contentRef }) {
   const widthControl = {
     width: !collapsed ? size.width - sidebarSize : size.width - sidebarCollapsedSize,
   };
-  
+
 	const completionStatus = (status) => {
-    if (status == 0) {
+    if (status === 0) {
 			return (
 				<div className='badge badge-primary flex-grow-1 p-2'>
 					Status: Not Yet Started
 				</div>
 			);
-		} else if (status == 1) {
+		} else if (status === 1) {
 			return (
 				<div className='badge badge-warning flex-grow-1 p-2'>
 					Status: On Going

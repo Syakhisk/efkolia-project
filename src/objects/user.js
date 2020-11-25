@@ -20,7 +20,7 @@ const user = {
 	},
 
 	getUnfinishedTask: function() {
-		return this.tasks.filter(task => task.status != 3)
+		return this.tasks.filter(task => task.status !== 3)
 	},
 
 	getAgendaWithStatus: function(status) {

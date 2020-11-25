@@ -3,7 +3,6 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import headerBg from "../assets/landscape-background.jpg";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { useWindowSize } from "../hooks/useWindowSize";
-import useDimensions from "react-use-dimensions";
 
 import CardCarousel from "./CardCarousel";
 
@@ -142,7 +141,7 @@ function Dashboard(props) {
 				</div>
 			</Container>
 
-			<Container fluid>
+			<Container fluid className="d-flex justify-content-center">
 				<CardCarousel
 					items={user.tasks}
 					collapsed={props.collapsed}
