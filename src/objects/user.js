@@ -2,6 +2,7 @@ const user = {
 	fullname: "Syakhisk Al-Azmi",
 	name: "Syakhisk",
 	email: "syakhisk@mamank.com",
+	backgroundUrl: "",
 	classes: [
 		{
 			code: "wp",
@@ -29,14 +30,17 @@ const user = {
 	
 	tasks: [
 		{
-			name: "Finish web programming",
+			id: 1,
+			name: "Mamank Geming",
 			status: 0,
 			classcode: "wp",
 			classname: "Web Programming",
 			deadline: "13/12/2020 20:00",
+			reminder: ["h-1",],
 			description: "this is description",
 		},
 		{
+			id: 2,
 			name: "Upload video tutorial",
 			status: 3,
 			classcode: "wp",
@@ -45,6 +49,7 @@ const user = {
 			description: "this is description",
 		},
 		{
+			id: 3,
 			name: "BST Powerpoint",
 			status: 1,
 			classcode: "ds",

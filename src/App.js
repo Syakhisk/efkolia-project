@@ -7,8 +7,11 @@ import Navbar from "./components/NavbarComp";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
 import Timetable from "./components/Timetable";
+import Landing from "./components/Landing";
+import PrivateRoute from "./components/PrivateRoute";
 
 import "./styles/app.scss";
+import AuthProvider from "./contexts/AuthContext";
 
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -26,37 +29,50 @@ function App() {
 
 	const renderedRouting = (
 		<Switch>
-			<Route
-				path='/'
-				exact
-				render={(props) => <Dashboard {...props} collapsed={collapsed} />}
-			/>
-			<Route path='/timetable' component={Timetable}></Route>
+			<Route path='/' exact component={Landing} />
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>
+			<Route path='/landing' component={Landing}></Route>
+			<PrivateRoute
+				path='/dashboard'
+				collapsed={collapsed}
+				component={Dashboard}
+			/>
+			{/* <PrivateRoute
+				path='/dashboard'
+				render={(props) => <Dashboard {...props} collapsed={collapsed} />}
+			/> */}
+			<PrivateRoute path='/timetable' component={Timetable}></PrivateRoute>
 			<Route path='/404' component={NotFound} />
 			<Redirect to='/404' />
 		</Switch>
 	);
 
-	if (location === "/404" || location === "/login" || location === "/signup") {
-		return <>{renderedRouting}</>;
+	if (
+		location === "/404" ||
+		location === "/login" ||
+		location === "/signup" ||
+		location === "/landing"
+	) {
+		return <AuthProvider>{renderedRouting}</AuthProvider>;
 	}
 
 	return (
-		<div className={`app ${toggled ? "toggled" : ""}`}>
-			<Sidebar
-				collapsed={collapsed}
-				toggled={toggled}
-				handleToggleSidebar={handleToggleSidebar}
-				handleCollapsedChange={handleCollapsedChange}
-			/>
+		<AuthProvider>
+			<div className={`app ${toggled ? "toggled" : ""}`}>
+				<Sidebar
+					collapsed={collapsed}
+					toggled={toggled}
+					handleToggleSidebar={handleToggleSidebar}
+					handleCollapsedChange={handleCollapsedChange}
+				/>
 
-			<div className='content' style={{ marginLeft: collapsed ? 80 : 270 }}>
-				<Navbar />
-				<main>{renderedRouting}</main>
+				<div className='content' style={{ marginLeft: collapsed ? 80 : 270 }}>
+					<Navbar />
+					<main>{renderedRouting}</main>
+				</div>
 			</div>
-		</div>
+		</AuthProvider>
 	);
 }
 

@@ -45,6 +45,7 @@ function Sidebar(props) {
 				<Menu iconShape={"circle"}>
 					{links.map(({ link, text, icon }, index) => (
 						<OverlayTrigger
+							key={index}
 							placement='right'
 							delay={{ show: 250, hide: 100 }}
 							overlay={
@@ -56,7 +57,7 @@ function Sidebar(props) {
 									noTooltip
 								)
 							}>
-							<MenuItem key={index} icon={icon}>
+							<MenuItem icon={icon}>
 								<NavLink to={link}>{text}</NavLink>
 							</MenuItem>
 						</OverlayTrigger>
