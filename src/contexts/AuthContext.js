@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 
 const AuthContext = React.createContext();
 
@@ -12,15 +12,23 @@ export function AuthProvider({ children }) {
 	const [loading, setLoading] = useState(true);
 
 	//change these methods' return value if we wanted to change db
-	function signup(email, password) {
-		return auth.createUserWithEmailAndPassword(email, password);
+	async function signup(email, password, firstName, lastName = '') {
+		await auth.createUserWithEmailAndPassword(email, password);
+		await db.collection("users").add({
+			_email: email,
+			_firstName: firstName,
+			_lastName: lastName,
+			classes: [],
+			tasks: [],
+			agendas: [],
+		});
 	}
 
-	function login(email, password) {
+	async function login(email, password) {
 		return auth.signInWithEmailAndPassword(email, password);
 	}
 
-	function logout() {
+	async function logout() {
 		return auth.signOut();
 	}
 

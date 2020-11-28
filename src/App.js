@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
 import Timetable from "./components/Timetable";
 import Landing from "./components/Landing";
+import ComponentTest from "./components/ComponentTest";
 import PrivateRoute from "./components/PrivateRoute";
 
 import "./styles/app.scss";
@@ -16,7 +17,6 @@ import AuthProvider from "./contexts/AuthContext";
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
 	const [toggled, setToggled] = useState(false);
-	// const [contentMargin, setContentMargin] = useState(0);
 	const location = useLocation().pathname;
 
 	const handleCollapsedChange = (checked) => {
@@ -30,6 +30,7 @@ function App() {
 	const renderedRouting = (
 		<Switch>
 			<Route path='/' exact component={Landing} />
+			<Route path='/test' component={ComponentTest}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>
 			<Route path='/landing' component={Landing}></Route>
@@ -38,10 +39,6 @@ function App() {
 				collapsed={collapsed}
 				component={Dashboard}
 			/>
-			{/* <PrivateRoute
-				path='/dashboard'
-				render={(props) => <Dashboard {...props} collapsed={collapsed} />}
-			/> */}
 			<PrivateRoute path='/timetable' component={Timetable}></PrivateRoute>
 			<Route path='/404' component={NotFound} />
 			<Redirect to='/404' />
@@ -49,10 +46,12 @@ function App() {
 	);
 
 	if (
+		location === "/" ||
 		location === "/404" ||
 		location === "/login" ||
 		location === "/signup" ||
-		location === "/landing"
+		location === "/landing" ||
+		location === "/test"
 	) {
 		return <AuthProvider>{renderedRouting}</AuthProvider>;
 	}
