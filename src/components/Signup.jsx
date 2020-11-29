@@ -10,10 +10,14 @@ function Signup() {
 	const passwordConfirmRef = useRef();
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const { signup } = useAuth();
+
+	const { signup, currentUser } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const history = useHistory();
+
+	//handle if user already logged in
+	if(currentUser) history.push("/dashboard")
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

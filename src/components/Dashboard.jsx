@@ -19,13 +19,14 @@ function Dashboard(props) {
 	const { currentUser, logout } = useAuth();
 	const [error, setError] = useState("");
 	const history = useHistory();
+	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
 
 	const headerStyling = {
 		background: "#a3a3a3",
 		backgroundImage: `url(${headerBg})`,
 		backgroundSize: "cover",
 		backgroundPosition: "center",
-		height: fullHeight ? size.height - 56 : "200px",
+		height: fullHeight ? calculatedHeight - 56 : "200px",
 		transition: "0.3s",
 	};
 
@@ -37,13 +38,6 @@ function Dashboard(props) {
 	}, []);
 
 	const handleScroll = (e) => {
-		// if (window.scrollY == 0) {
-		// 	// setHeaderStyle("fullheight");
-		// 	setFullHeight(true);
-		// } else {
-		// 	// setHeaderStyle("");
-		// 	setFullHeight(false);
-		// }
 		setFullHeight(false);
 	};
 
@@ -58,7 +52,7 @@ function Dashboard(props) {
 			history.push("/landing");
 		} catch (err) {
 			setError("Failed to log out");
-			console.log(err)
+			console.log(err);
 		}
 	};
 
@@ -70,9 +64,6 @@ function Dashboard(props) {
 		textOverflow: "ellipsis",
 	};
 
-	// console.log(user.getTaskWithStatus(0).map(t => t.name).join(", "));
-	// console.log(dashboardSize);
-
 	return (
 		<div id='content-wrapper' ref={contentRef}>
 			<Container
@@ -81,92 +72,101 @@ function Dashboard(props) {
 					!fullHeight ? "dash-minified" : ""
 				}`}
 				style={headerStyling}>
-				<Fade>
-					<Row>
-						<Col sm md={9} className='pb-2 pb-sm-1'>
-							<Button onClick={handleLogout}>Cabs</Button>
-							<div className='display-4'>
-								Hello, {currentUser.email}
-								{/* Hello, {user.name} */}
-								<Button
-									className='ml-2 ml-lg-3'
-									variant='outline-primary'
-									size='sm'
-									onClick={() => handleFullHeight(true)}>
-									Toggle Dashboard
-								</Button>
-							</div>
-						</Col>
-						{/* <Col sm className='d-flex justify-content-sm-start'>
+				{/* <Fade> */}
+				<Row>
+					<Col sm md={9} className='pb-2 pb-sm-1'>
+						<Button onClick={handleLogout}>Cabs</Button>
+						<div className='display-4'>
+							Hello, {currentUser._firstName}
+							<Button
+								className='ml-2 ml-lg-3'
+								variant='outline-primary'
+								size='sm'
+								onClick={() => handleFullHeight(true)}>
+								Toggle Dashboard
+							</Button>
+						</div>
+					</Col>
+					{/* <Col sm className='d-flex justify-content-sm-start'>
 							<div className='clock-container'>
 								<h3 className='mb-0'>Tuesday, June 9th</h3>
 								<div className='display-3 mb-0'>16:00</div>
 							</div>
 						</Col> */}
-					</Row>
+				</Row>
 
-					<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
-					<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
-						<Col sm className='d-flex flex-column'>
-							<h1>Class at 14:00, Today</h1>
-							<p style={truncate}>Web Programming</p>
-							<div className='bottom-right'>
-								<Button className='btn-primary btn-sm'>Go to Timetables</Button>
-							</div>
-						</Col>
-						<Col sm className='d-flex flex-column'>
-							<h1>{user.getUnfinishedTask().length} Task(s)</h1>
-							<p style={truncate}>
-								{user
-									.getUnfinishedTask()
-									.map((t) => t.name)
-									.join(", ")}
-							</p>
-							<div className='bottom-right'>
-								<Button className='btn-primary btn-sm'>Go to Tasks</Button>
-							</div>
-						</Col>
-						<Col sm className='d-flex flex-column'>
-							<h1>{user.getAgendaWithStatus(0).length} Agenda(s)</h1>
-							<p style={truncate}>
-								{user
-									.getAgendaWithStatus(0)
-									.map((t) => t.name)
-									.join(", ")}
-							</p>
-							<div className='bottom-right'>
-								<Button className='btn-primary btn-sm'>Go to Agendas</Button>
-							</div>
-						</Col>
-					</Row>
+				<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
+				<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
+					<Col sm className='d-flex flex-column'>
+						<h1>Class at 14:00, Today</h1>
+						<p style={truncate}>Web Programming</p>
+						<div className='bottom-right'>
+							<Button className='btn-primary btn-sm'>Go to Timetables</Button>
+						</div>
+					</Col>
+					<Col sm className='d-flex flex-column'>
+						<h1>
+							{currentUser.tasks.filter((task) => task.status !== 3).length}{" "}
+							Task(s)
+						</h1>
+						<p style={truncate}>
+							{currentUser.tasks
+								.filter((task) => task.status !== 3)
+								.map((task) => task.name)
+								.join(", ")}
+						</p>
+						<div className='bottom-right'>
+							<Button className='btn-primary btn-sm'>Go to Tasks</Button>
+						</div>
+					</Col>
+					<Col sm className='d-flex flex-column'>
+						<h1>
+							{
+								currentUser.agendas.filter((agenda) => agenda.status !== 3)
+									.length
+							}{" "}
+							Agenda(s)
+						</h1>
+						<p style={truncate}>
+							{currentUser.agendas
+								.filter((agenda) => agenda.status !== 3)
+								.map((agenda) => agenda.name)
+								.join(", ")}
+						</p>
+						<div className='bottom-right'>
+							<Button className='btn-primary btn-sm'>Go to Agendas</Button>
+						</div>
+					</Col>
+				</Row>
 
-					{/* https://open.spotify.com/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ */}
-					<div className='music-container'>
-						<h3>Music?</h3>
-						<iframe
-							src='https://open.spotify.com/embed/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ'
-							width='300'
-							height='80'
-							frameborder='0'
-							allowtransparency='true'
-							allow='encrypted-media'></iframe>
-					</div>
+				{/* https://open.spotify.com/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ */}
+				<div className='music-container'>
+					<h3>Music?</h3>
+					<iframe
+						title='spotify'
+						src='https://open.spotify.com/embed/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ'
+						width='300'
+						height='80'
+						frameBorder='0'
+						allowtransparency='true'
+						allow='encrypted-media'></iframe>
+				</div>
 
-					<div className='flex-grow-1' />
-					<div
-						className={`${
-							!fullHeight ? "invisible" : "visible"
-						} d-flex justify-content-center pb-3 overflow-hidden`}>
-						<Button
-							variant='outline-primary'
-							onClick={() => setFullHeight(false)}>
-							<MdKeyboardArrowUp
-								className='my-1'
-								style={{ transform: "scale(2,2)" }}
-							/>
-						</Button>
-					</div>
-				</Fade>
+				<div className='flex-grow-1' />
+				<div
+					className={`${
+						!fullHeight ? "invisible" : "visible"
+					} d-flex justify-content-center pb-3 overflow-hidden`}>
+					<Button
+						variant='outline-primary'
+						onClick={() => setFullHeight(false)}>
+						<MdKeyboardArrowUp
+							className='my-1'
+							style={{ transform: "scale(2,2)" }}
+						/>
+					</Button>
+				</div>
+				{/* </Fade> */}
 			</Container>
 
 			<Container fluid className='pt-3'>

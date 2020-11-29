@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React from "react";
+// import { Button, Modal } from "react-bootstrap";
 import Slider from "react-slick";
 import { useWindowSize } from "../hooks/useWindowSize";
 import "../styles/carousel.scss";
 
-function CardCarousel({ items, collapsed, contentRef }) {
+function CardCarouselTask({ items, collapsed, contentRef }) {
 	var settings = {
 		dots: true,
 		infinite: false,
@@ -46,11 +46,12 @@ function CardCarousel({ items, collapsed, contentRef }) {
 	const tolerance = 55;
 	const sidebarSize = 270 + tolerance;
 	const sidebarCollapsedSize = 80 + tolerance;
+	const calculatedWidth = isNaN(size.width) ? 0 : size.width
 
 	const widthControl = {
 		width: !collapsed
-			? size.width - sidebarSize
-			: size.width - sidebarCollapsedSize,
+			? calculatedWidth - sidebarSize
+			: calculatedWidth - sidebarCollapsedSize,
 		marginBottom: "3rem",
 	};
 
@@ -76,11 +77,8 @@ function CardCarousel({ items, collapsed, contentRef }) {
 		}
 	};
 
-
 	const renderedItems = items.map((item, idx) => (
-		<div
-			key={idx}
-			className='bg-dark rounded caro-item p-3'>
+		<div key={idx} className='bg-dark rounded caro-item p-3'>
 			<h6 className='font-weight-bold'>{item.classname}</h6>
 			<h4 className='font-weight-bold'>{item.name}</h4>
 			<h6>
@@ -103,4 +101,4 @@ function CardCarousel({ items, collapsed, contentRef }) {
 	);
 }
 
-export default CardCarousel;
+export default CardCarouselTask;

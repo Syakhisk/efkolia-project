@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import ComponentTest from "./components/ComponentTest";
 import Dashboard from "./components/Dashboard";
+import Landing from "./components/Landing";
 import Login from "./components/Login";
-import NotFound from "./components/NotFound";
 import Navbar from "./components/NavbarComp";
+import NotFound from "./components/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
+import Profile from "./components/Profile";
 import Timetable from "./components/Timetable";
-import Landing from "./components/Landing";
-import ComponentTest from "./components/ComponentTest";
-import PrivateRoute from "./components/PrivateRoute";
-
-import "./styles/app.scss";
 import AuthProvider from "./contexts/AuthContext";
+import "./styles/app.scss";
+
 
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -39,7 +40,8 @@ function App() {
 				collapsed={collapsed}
 				component={Dashboard}
 			/>
-			<PrivateRoute path='/timetable' component={Timetable}></PrivateRoute>
+			<PrivateRoute path='/timetable' component={Timetable} />
+			<PrivateRoute path='/profile' component={Profile} />
 			<Route path='/404' component={NotFound} />
 			<Redirect to='/404' />
 		</Switch>

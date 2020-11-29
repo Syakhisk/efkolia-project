@@ -2,10 +2,16 @@ import React from "react";
 import { Button, Container } from "react-bootstrap";
 import Particles from "react-particles-js";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import Fade from "react-reveal/Fade";
 
 function Landing() {
 	const history = useHistory();
+	const { currentUser } = useAuth();
+
+	if (currentUser) {
+		history.push("/dashboard");
+	}
 
 	const params = {
 		particles: {

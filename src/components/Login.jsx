@@ -10,7 +10,10 @@ function Signup() {
 	const { login, currentUser } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
-  const history = useHistory();
+	const history = useHistory();
+	
+	//handle if user already logged in
+	if(currentUser) history.push("/dashboard")
   
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -40,11 +43,11 @@ function Signup() {
 					<Form onSubmit={handleSubmit}>
 						<Form.Group id='email'>
 							<Form.Label>Email</Form.Label>
-							<Form.Control type='email' ref={emailRef} required />
+							<Form.Control type='email' ref={emailRef} placeholder='mamank@gemink.com' required />
 						</Form.Group>
 						<Form.Group id='password'>
 							<Form.Label>Password</Form.Label>
-							<Form.Control type='password' ref={passwordRef} required />
+							<Form.Control type='password' ref={passwordRef} placeholder="******" required />
 						</Form.Group>
 						<Button
 							disabled={loading}

@@ -1,18 +1,20 @@
 import {
 	MdDashboard,
-	MdReceipt,
 	MdGridOn,
-	MdPlaylistPlay,
+	MdModeEdit,
+	MdLocalLibrary,
+	MdPlayCircleFilled,
 } from "react-icons/md";
 
 import { GoNote } from "react-icons/go";
 
 const links = [
-	{ link: "/", text: "Dashboard", icon: <MdDashboard /> },
-	{ link: "/subjects", text: "Subjects", icon: <MdReceipt /> },
-	{ link: "/timetable", text: "Timetable", icon: <MdGridOn /> },
-	{ link: "/playlists", text: "Playlists", icon: <MdPlaylistPlay /> },
+	{ link: "/dashboard", text: "Dashboard", icon: <MdDashboard /> },
+	{ link: "/tasks", text: "Tasks", icon: <MdModeEdit /> },
 	{ link: "/agendas", text: "Agendas", icon: <GoNote /> },
+	{ link: "/subjects", text: "Subjects", icon: <MdLocalLibrary /> },
+	{ link: "/timetable", text: "Timetable", icon: <MdGridOn /> },
+	{ link: "/playlists", text: "Playlists", icon: <MdPlayCircleFilled /> },
 ];
 
 export default links;
