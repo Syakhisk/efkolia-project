@@ -1,41 +1,61 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav"
-import { NavDropdown } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { FormControl } from "react-bootstrap";
-import { Button } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
+import { Dropdown, Button } from "react-bootstrap";
+import { BiPlus } from "react-icons/bi";
+import { useAuth } from "../contexts/AuthContext";
+
 // import useDimensions from "react-use-dimensions";
 
-
-function NavbarComp() {
+function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	// const [navbarRef, navbarSize] = useDimensions();
-	
+	const { logout } = useAuth();
 	return (
 		<div className='Navbar sticky-top'>
 			<Navbar bg='dark' expand='lg' variant='dark'>
-				<Navbar.Brand href='#home'>Placeholder</Navbar.Brand>
-				<Navbar.Toggle aria-controls='basic-navbar-nav' />
+				<button
+					className='btn navbar-toggler'
+					onClick={() => handleToggleSidebar(!toggled)}>
+					<span className='btn navbar-toggler-icon' />
+				</button>
+				<Navbar.Brand>{location}</Navbar.Brand>
+				<Navbar.Toggle
+					aria-controls='basic-navbar-nav'
+					onClick={() => handleToggleSidebar(false)}>
+					<span className='btn navbar-toggler-icon' />
+				</Navbar.Toggle>
+
 				<Navbar.Collapse id='basic-navbar-nav'>
-					<Nav className='mr-auto'>
-						<Nav.Link href='#home'>Home</Nav.Link>
-						<Nav.Link href='#link'>Link</Nav.Link>
-						<NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-							<NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-							<NavDropdown.Item href='#action/3.2'>
-								Another action
-							</NavDropdown.Item>
-							<NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item href='#action/3.4'>
-								Separated link
-							</NavDropdown.Item>
-						</NavDropdown>
+					<Nav className='mr-auto'></Nav>
+					<Nav>
+						<Dropdown drop='left'>
+							<Dropdown.Toggle
+								as='div'
+								className='btn w-100 my-md-0 my-sm-2 py-2'>
+								<img
+									src='https://i.pravatar.cc/100'
+									className='rounded-circle'
+									style={{
+										maxWidth: "30px",
+										width: "100%",
+										height: "100%",
+										objectFit: "cover",
+									}}
+								/>
+							</Dropdown.Toggle>
+							<Dropdown.Menu>
+								<Dropdown.Item>User Profile</Dropdown.Item>
+								<Dropdown.Divider />
+								<Dropdown.Item onClick={() => logout()}>Log Out</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
+						<vl className='d-none d-lg-block' />
+						<Nav.Item className='btn d-flex flex-row my-md-0 my-sm-2 py-2'>
+							<button className='btn btn-success btn-sm w-100'>
+								New <BiPlus />
+							</button>
+						</Nav.Item>
 					</Nav>
-					<Form inline>
-						<FormControl type='text' placeholder='Search' className='mr-sm-2' />
-						<Button variant='outline-success'>Search</Button>
-					</Form>
 				</Navbar.Collapse>
 			</Navbar>
 		</div>

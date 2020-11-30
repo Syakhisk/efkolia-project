@@ -75,7 +75,6 @@ function Dashboard(props) {
 				{/* <Fade> */}
 				<Row>
 					<Col sm md={9} className='pb-2 pb-sm-1'>
-						<Button onClick={handleLogout}>Cabs</Button>
 						<div className='display-4'>
 							Hello, {currentUser._firstName}
 							<Button
@@ -87,12 +86,6 @@ function Dashboard(props) {
 							</Button>
 						</div>
 					</Col>
-					{/* <Col sm className='d-flex justify-content-sm-start'>
-							<div className='clock-container'>
-								<h3 className='mb-0'>Tuesday, June 9th</h3>
-								<div className='display-3 mb-0'>16:00</div>
-							</div>
-						</Col> */}
 				</Row>
 
 				<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>

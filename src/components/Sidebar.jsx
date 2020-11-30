@@ -10,6 +10,7 @@ import {
 import { NavLink } from "react-router-dom";
 import logo from "../assets/efkolia-logo.svg";
 import links from "../objects/nav-links";
+import { useHistory } from "react-router-dom";
 import { MdPerson, MdChevronRight, MdChevronLeft } from "react-icons/md";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
@@ -21,6 +22,8 @@ function Sidebar(props) {
 		handleCollapsedChange,
 	} = props;
 
+	const history = useHistory();
+
 	const noTooltip = <div></div>;
 
 	return (
@@ -30,7 +33,10 @@ function Sidebar(props) {
 			breakPoint='md'
 			onToggle={handleToggleSidebar}>
 			<SidebarHeader>
-				<div className='sidebar-brand-header'>
+				<div
+					className='sidebar-brand-header'
+					style={{cursor: "pointer"}}
+					onClick={() => history.push("/dashboard")}>
 					<img
 						src={logo}
 						style={{ height: "23px" }}
@@ -75,7 +81,7 @@ function Sidebar(props) {
 			<SidebarFooter>
 				<Menu iconShape='circle'>
 					<MenuItem icon={<MdPerson />}>
-						<NavLink to='/profile'>User Profile</NavLink>
+						<NavLink to='/user-profile'>User Profile</NavLink>
 					</MenuItem>
 				</Menu>
 			</SidebarFooter>

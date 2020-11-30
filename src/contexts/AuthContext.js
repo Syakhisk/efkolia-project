@@ -25,13 +25,11 @@ export function AuthProvider({ children }) {
 		});
 	}
 
-	function changeEmail(newEmail){
+	function changeEmail(newEmail) {}
 
-	}
-
-	async function changePassword(newPassword){
+	async function changePassword(newPassword) {
 		const user = auth.currentUser;
-		await user.updatePassword(newPassword)
+		await user.updatePassword(newPassword);
 	}
 
 	function login(email, password) {
@@ -51,7 +49,7 @@ export function AuthProvider({ children }) {
 
 		const unsubscribe = auth.onAuthStateChanged(async (user) => {
 			if (user) {
-				const record = await getRecord(user.email)
+				const record = await getRecord(user.email);
 				setCurrentUser({ ...user, ...record });
 			} else {
 				setCurrentUser(user);

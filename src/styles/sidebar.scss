@@ -9,6 +9,19 @@ $sidebar-width: 270px;
 
 @import "~react-pro-sidebar/dist/scss/styles.scss";
 
+#toggle-collapsed {
+	display: flex;
+	justify-content: center;
+
+	.pro-inner-item {
+		padding: 8px 20px;
+
+		.pro-icon-wrapper {
+			margin: 0;
+		}
+	}
+}
+
 .sidebar-brand-header {
 	padding: 24px;
 	text-transform: uppercase;
@@ -36,10 +49,6 @@ body {
 }
 
 .app {
-	height: 100%;
-	display: flex;
-	position: relative;
-
 	.btn-toggle {
 		cursor: pointer;
 		width: 35px;
@@ -93,36 +102,6 @@ body {
 		}
 	}
 
-	main {
-		padding: 24px;
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		overflow-y: auto;
-		header {
-			margin-bottom: 40px;
-			border-bottom: 1px solid #efefef;
-			h1 {
-				display: flex;
-				align-items: center;
-				transform: translateX(-20px);
-			}
-		}
-
-		footer {
-			margin-top: auto;
-			color: #888;
-			text-align: center;
-			a {
-				text-decoration: none;
-				color: #888;
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-		}
-	}
-
 	.block {
 		display: flex;
 		margin-bottom: 24px;
@@ -171,4 +150,12 @@ body {
 		color: #000000;
 		background: #ffd331;
 	}
+}
+
+.badge {
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 }

@@ -13,7 +13,7 @@ import Profile from "./components/Profile";
 import Timetable from "./components/Timetable";
 import AuthProvider from "./contexts/AuthContext";
 import "./styles/app.scss";
-
+import Fade from "react-reveal/Fade";
 
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -41,7 +41,7 @@ function App() {
 				component={Dashboard}
 			/>
 			<PrivateRoute path='/timetable' component={Timetable} />
-			<PrivateRoute path='/profile' component={Profile} />
+			<PrivateRoute path='/user-profile' component={Profile} />
 			<Route path='/404' component={NotFound} />
 			<Redirect to='/404' />
 		</Switch>
@@ -69,7 +69,11 @@ function App() {
 				/>
 
 				<div className='content' style={{ marginLeft: collapsed ? 80 : 270 }}>
-					<Navbar />
+					<Navbar
+						location={location}
+						handleToggleSidebar={handleToggleSidebar}
+						toggled={toggled}
+					/>
 					<main>{renderedRouting}</main>
 				</div>
 			</div>
