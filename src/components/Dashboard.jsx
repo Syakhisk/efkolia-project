@@ -8,11 +8,16 @@ import Fade from "react-reveal/Fade";
 import CardCarouselTask from "./CardCarouselTask";
 import CardCarouselAgenda from "./CardCarouselAgenda";
 
+import CarouselComponent from "./CarouselComponent";
+
+import { greet } from "../random-greetings.js";
 import user from "../objects/user";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import CardCarousel from "./CardCarouselAgenda";
 
 function Dashboard(props) {
+	const [greeting, setGreeting] = useState("Hello");
 	const [fullHeight, setFullHeight] = useState(true);
 	const size = useWindowSize();
 	const contentRef = useRef(0);
@@ -20,6 +25,8 @@ function Dashboard(props) {
 	const [error, setError] = useState("");
 	const history = useHistory();
 	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
+
+	const { toggled, collapsed } = props;
 
 	const headerStyling = {
 		background: "#a3a3a3",
@@ -31,6 +38,8 @@ function Dashboard(props) {
 	};
 
 	useEffect(() => {
+		setGreeting(greet());
+		
 		window.addEventListener("scroll", handleScroll);
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
@@ -76,7 +85,7 @@ function Dashboard(props) {
 				<Row>
 					<Col sm md={9} className='pb-2 pb-sm-1'>
 						<div className='display-4'>
-							Hello, {currentUser._firstName}
+							{greeting}, {currentUser._firstName}
 							<Button
 								className='ml-2 ml-lg-3'
 								variant='outline-primary'
@@ -163,7 +172,12 @@ function Dashboard(props) {
 			</Container>
 
 			<Container fluid className='pt-3'>
-				<Fade when={!fullHeight}>
+				<CarouselComponent
+					items={user.tasks}
+					toggled={toggled}
+					collapsed={collapsed}
+				/>
+				{/* <Fade when={!fullHeight}>
 					<CardCarouselTask
 						items={user.tasks}
 						collapsed={props.collapsed}
@@ -177,7 +191,7 @@ function Dashboard(props) {
 						collapsed={props.collapsed}
 						contentRef={contentRef}
 					/>
-				</Fade>
+				</Fade> */}
 			</Container>
 		</div>
 	);

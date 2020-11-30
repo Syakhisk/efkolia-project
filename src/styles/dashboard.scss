@@ -1,8 +1,9 @@
 .welcome-container {
 	display: flex;
 	flex-direction: column;
-	color: $primary;
+	color: $light;
 	user-select: none;
+	overflow: hidden;
 
 	* {
 		transition: all 0.3s;
@@ -75,8 +76,14 @@
 
 
 .hideDetails {
-	@include media-breakpoint-down(md) {
+	@include media-breakpoint-down(xs) {
 		opacity: 0;
 		visibility: hidden;
 	}
 }
+// .hideDetails {
+// 	@include media-breakpoint-down(md) {
+// 		opacity: 0;
+// 		visibility: hidden;
+// 	}
+// }

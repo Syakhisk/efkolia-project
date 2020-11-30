@@ -2,7 +2,7 @@
 
 body {
 	// background-color: #212223;
-	background-color: #494949;
+	background-color: $gray-900;
 	// color: white;
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
@@ -58,12 +58,12 @@ main {
 
 .content {
 	width: 100%;
+	overflow-x: hidden;
 	transition: margin 0.3s;
 	@media (max-width: $breakpoint-md) {
 		margin-left: 0 !important;
 	}
 }
-
 
 h1 {
 	font-weight: 600;
@@ -129,4 +129,21 @@ CAROUSEL
 vl {
 	border-left: 1px solid $gray-500;
 	margin: 15px 0;
+}
+
+/*
+Carousel
+*/
+
+.caro-container {
+	background-color: $dark;
+}
+
+.caro-item {
+	background-color: $gray-900;
+}
+
+.alice-carousel__dots {
+	margin-top: 10px;
+	margin-bottom: 0px;
 }

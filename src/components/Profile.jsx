@@ -11,8 +11,8 @@ function Profile() {
 	const [firstName, setFirstName] = useState(currentUser._firstName);
 	const [lastName, setLastName] = useState(currentUser._lastName);
 	const [email, setEmail] = useState(currentUser.email);
-  const [modalShow, setModalShow] = useState(false);
-  
+	const [modalShow, setModalShow] = useState(false);
+
 	return (
 		<Card bg='dark' border='light' className='m-3'>
 			<Card.Header>
@@ -97,7 +97,7 @@ function Profile() {
 
 					<Form.Row className='mt-4 d-flex flex-row-reverse'>
 						<Button
-							variant='outline-secondary'
+							variant='outline-primary'
 							className='mr-3 col-sm-12 col-md-auto px-3 my-2'>
 							Apply
 						</Button>

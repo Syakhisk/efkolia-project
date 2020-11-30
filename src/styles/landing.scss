@@ -1,0 +1,15 @@
+.landing-display {
+	color: $light;
+	display: inline-block;
+	transition: all 0.5s;
+}
+
+.landing-display:hover {
+	color: $primary;
+	font-size: 6.5rem;
+}
+
+.no-select {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
