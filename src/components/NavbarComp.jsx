@@ -14,7 +14,7 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	const { logout } = useAuth();
 	return (
 		<div className='Navbar sticky-top'>
-			<Navbar bg='dark' expand='lg' variant='dark'>
+			<Navbar bg='dark' expand='md' variant='dark'>
 				<button
 					className='btn navbar-toggler'
 					onClick={() => handleToggleSidebar(!toggled)}>
@@ -45,15 +45,19 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 									}}
 								/>
 							</Dropdown.Toggle>
-							<Dropdown.Menu>
-								<Dropdown.Item onClick={() => history.push("/user-profile")}>
+							<Dropdown.Menu className='bg-success'>
+								<Dropdown.Item
+									className='text-light'
+									onClick={() => history.push("/user-profile")}>
 									User Profile
 								</Dropdown.Item>
 								<Dropdown.Divider />
-								<Dropdown.Item onClick={() => logout()}>Log Out</Dropdown.Item>
+								<Dropdown.Item className='text-light' onClick={() => logout()}>
+									Log Out
+								</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
-						<vl className='d-none d-lg-block' />
+						<div className='vl d-none d-lg-block' />
 						<Nav.Item className='btn d-flex flex-row my-md-0 my-sm-2 py-2'>
 							<button className='btn btn-success btn-sm w-100'>
 								New <BiPlus />
