@@ -5,16 +5,12 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { useWindowSize } from "../hooks/useWindowSize";
 import Fade from "react-reveal/Fade";
 
-import CardCarouselTask from "./CardCarouselTask";
-import CardCarouselAgenda from "./CardCarouselAgenda";
-
 import CarouselComponent from "./CarouselComponent";
 
 import { greet } from "../random-greetings.js";
 import user from "../objects/user";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
-import CardCarousel from "./CardCarouselAgenda";
 
 function Dashboard(props) {
 	const [greeting, setGreeting] = useState("Hello");
@@ -26,7 +22,7 @@ function Dashboard(props) {
 	const history = useHistory();
 	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
 
-	const { toggled, collapsed } = props;
+	const { toggled, collapsed, isScrolled, setIsScrolled } = props;
 
 	const headerStyling = {
 		background: "#a3a3a3",
@@ -38,17 +34,27 @@ function Dashboard(props) {
 	};
 
 	useEffect(() => {
+		if (isScrolled) {
+			setFullHeight(false);
+			setIsScrolled(false);
+		}
+	}, [isScrolled]);
+
+	useEffect(() => {
 		setGreeting(greet());
-		
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
 	}, []);
 
-	const handleScroll = (e) => {
-		setFullHeight(false);
-	};
+	// useEffect(() => {
+
+	// 	window.addEventListener("scroll", handleScroll);
+	// 	return () => {
+	// 		window.removeEventListener("scroll", handleScroll);
+	// 	};
+	// }, []);
+
+	// const handleScroll = (e) => {
+	// 	setFullHeight(false);
+	// };
 
 	const handleFullHeight = (e) => {
 		setFullHeight(!fullHeight);
@@ -158,41 +164,37 @@ function Dashboard(props) {
 				<div
 					className={`${
 						!fullHeight ? "invisible" : "visible"
-					} d-flex justify-content-center pb-3 overflow-hidden`}>
+					} d-flex justify-content-center overflow-hidden`}>
 					<Button
 						variant='outline-primary'
 						onClick={() => setFullHeight(false)}>
-						<MdKeyboardArrowUp
-							className='my-1'
-							style={{ transform: "scale(2,2)" }}
-						/>
+						<MdKeyboardArrowUp style={{ transform: "scale(2,2)" }} />
 					</Button>
 				</div>
 				{/* </Fade> */}
 			</Container>
 
-			<Container fluid className='pt-3'>
-				<CarouselComponent
-					items={user.tasks}
-					toggled={toggled}
-					collapsed={collapsed}
-				/>
-				{/* <Fade when={!fullHeight}>
-					<CardCarouselTask
-						items={user.tasks}
-						collapsed={props.collapsed}
-						contentRef={contentRef}
+			<Fade delay={100} when={!fullHeight}>
+				<Container fluid className='pt-3'>
+					<CarouselComponent
+						title='tasks'
+						items={currentUser.tasks}
+						toggled={toggled}
+						collapsed={collapsed}
 					/>
-				</Fade>
+				</Container>
+			</Fade>
 
-				<Fade when={!fullHeight} delay={250}>
-					<CardCarouselTask
-						items={user.tasks}
-						collapsed={props.collapsed}
-						contentRef={contentRef}
+			<Fade delay={300} when={!fullHeight}>
+				<Container fluid className='pt-3'>
+					<CarouselComponent
+						title='agendas'
+						items={currentUser.agendas}
+						toggled={toggled}
+						collapsed={collapsed}
 					/>
-				</Fade> */}
-			</Container>
+				</Container>
+			</Fade>
 		</div>
 	);
 }

@@ -9,7 +9,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 		<Route
 			{...rest}
 			render={(props) => {
-				return currentUser ? <Component {...props} collapsed={rest.collapsed}/> : <Redirect to='/landing' />;
+				return currentUser ? <Component {...props} isScrolled={rest.isScrolled} setIsScrolled={rest.setIsScrolled} collapsed={rest.collapsed}/> : <Redirect to='/landing' />;
 			}}
 		/>
 	);

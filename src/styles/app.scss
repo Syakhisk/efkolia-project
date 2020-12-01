@@ -4,6 +4,7 @@ body {
 	// background-color: #212223;
 	background-color: $gray-900;
 	// color: white;
+	// overflow-x: hidden;
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -31,7 +32,7 @@ main {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	overflow-y: auto;
+	// overflow-y: auto;
 	header {
 		margin-bottom: 40px;
 		border-bottom: 1px solid #efefef;
@@ -146,4 +147,8 @@ Carousel
 .alice-carousel__dots {
 	margin-top: 10px;
 	margin-bottom: 0px;
+}
+
+.bg-vdark {
+	background-color: $gray-900;
 }

@@ -4,11 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import { Dropdown, Button } from "react-bootstrap";
 import { BiPlus } from "react-icons/bi";
 import { useAuth } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom";
 
 // import useDimensions from "react-use-dimensions";
 
 function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	// const [navbarRef, navbarSize] = useDimensions();
+	const history = useHistory();
 	const { logout } = useAuth();
 	return (
 		<div className='Navbar sticky-top'>
@@ -44,7 +46,9 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 								/>
 							</Dropdown.Toggle>
 							<Dropdown.Menu>
-								<Dropdown.Item>User Profile</Dropdown.Item>
+								<Dropdown.Item onClick={() => history.push("/user-profile")}>
+									User Profile
+								</Dropdown.Item>
 								<Dropdown.Divider />
 								<Dropdown.Item onClick={() => logout()}>Log Out</Dropdown.Item>
 							</Dropdown.Menu>

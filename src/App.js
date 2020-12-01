@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import ComponentTest from "./components/ComponentTest";
 import Dashboard from "./components/Dashboard";
@@ -17,8 +17,17 @@ import Fade from "react-reveal/Fade";
 
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
+	const contentRef = useRef();
+	const [isScrolled, setIsScrolled] = useState(false);
 	const [toggled, setToggled] = useState(false);
 	const location = useLocation().pathname;
+
+	const handleScroll = (e) => {
+		if (!isScrolled) {
+			setIsScrolled(true);
+			console.log("aaa");
+		}
+	};
 
 	const handleCollapsedChange = (checked) => {
 		setCollapsed(checked);
@@ -37,6 +46,8 @@ function App() {
 			<Route path='/landing' component={Landing}></Route>
 			<PrivateRoute
 				path='/dashboard'
+				setIsScrolled={setIsScrolled}
+				isScrolled={isScrolled}
 				collapsed={collapsed}
 				component={Dashboard}
 			/>
@@ -68,7 +79,10 @@ function App() {
 					handleCollapsedChange={handleCollapsedChange}
 				/>
 
-				<div className='content' style={{ marginLeft: collapsed ? 80 : 270 }}>
+				<div
+					className='content'
+					onScroll={() => setIsScrolled(true)}
+					style={{ marginLeft: collapsed ? 80 : 270 }}>
 					<Navbar
 						location={location}
 						handleToggleSidebar={handleToggleSidebar}
