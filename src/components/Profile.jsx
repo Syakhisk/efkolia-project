@@ -3,7 +3,7 @@ import { Card, Row, Col, Form, Button } from "react-bootstrap";
 import { MdModeEdit } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import ModalComponent from "./ModalComponent";
+import Modal from "./ModalComponent";
 
 function Profile() {
 	const { currentUser, changePassword } = useAuth();
@@ -104,9 +104,11 @@ function Profile() {
 						<Button
 							variant='outline-danger'
 							onClick={() => {
-								setFirstName(currentUser._firstName);
-								setLastName(currentUser._lastName);
-								setEmail(currentUser.email);
+								if (window.confirm("Are you sure you wish to discard?")) {
+									setFirstName(currentUser._firstName);
+									setLastName(currentUser._lastName);
+									setEmail(currentUser.email);
+								}
 							}}
 							className='mr-3 col-sm-12 col-md-auto px-3 my-2'>
 							Discard
@@ -114,7 +116,7 @@ function Profile() {
 					</Form.Row>
 				</Form>
 			</Card.Body>
-			<ModalComponent
+			<Modal
 				show={modalShow}
 				onHide={() => setModalShow(false)}
 				header='Change Password'
@@ -142,7 +144,7 @@ function Profile() {
 						<Form.Control type='password' />
 					</Form.Row>
 				</Form>
-			</ModalComponent>
+			</Modal>
 		</Card>
 	);
 }
