@@ -4,7 +4,9 @@ import { db } from "../firebase";
 
 function Test() {
 	const [user, setUser] = useState({});
-	const [time, setTime] = useState(moment().format("hh:mm"));
+	const [time, setTime] = useState(
+		moment().format("dddd, Do MMMM YYYY, hh:mm:ss")
+	);
 
 	// React.useEffect(() => {
 
@@ -29,8 +31,8 @@ function Test() {
 	let closestTime = "";
 
 	setInterval(() => {
-		setTime(moment().format("hh:mm"));
-	}, 1000);
+		setTime(moment().format("dddd, MMMM Do YYYY, hh:mm:ss"));
+	}, 100);
 
 	classesTime.forEach((d) => {
 		const diff = moment().diff(moment(d, "hh:mm"));
