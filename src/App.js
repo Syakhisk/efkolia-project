@@ -1,19 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+
+/*Route Components*/
 import ComponentTest from "./components/ComponentTest";
 import Dashboard from "./components/Dashboard";
-import Landing from "./components/Landing";
+import Tasks from "./components/Tasks"
+import Agendas from "./components/Agendas"
+import Subjects from "./components/Subjects"
+import Playlists from "./components/Playlists"
+import Timetable from "./components/Timetable";
+import Profile from "./components/Profile";
+import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Navbar from "./components/NavbarComp";
+import Landing from "./components/Landing";
 import NotFound from "./components/NotFound";
+
+/*Granular Components*/
+import Navbar from "./components/NavbarComp";
 import PrivateRoute from "./components/PrivateRoute";
 import Sidebar from "./components/Sidebar";
-import Signup from "./components/Signup";
-import Profile from "./components/Profile";
-import Timetable from "./components/Timetable";
 import AuthProvider from "./contexts/AuthContext";
 import "./styles/app.scss";
-import Fade from "react-reveal/Fade";
 
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +32,6 @@ function App() {
 	const handleScroll = (e) => {
 		if (!isScrolled) {
 			setIsScrolled(true);
-			console.log("aaa");
 		}
 	};
 
@@ -41,9 +47,9 @@ function App() {
 		<Switch>
 			<Route path='/' exact component={Landing} />
 			<Route path='/test' component={ComponentTest}></Route>
+			<Route path='/landing' component={Landing}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>
-			<Route path='/landing' component={Landing}></Route>
 			<PrivateRoute
 				path='/dashboard'
 				setIsScrolled={setIsScrolled}
@@ -51,7 +57,11 @@ function App() {
 				collapsed={collapsed}
 				component={Dashboard}
 			/>
+			<PrivateRoute path='/tasks' component={Tasks} />
+			<PrivateRoute path='/agendas' component={Agendas} />
+			<PrivateRoute path='/subjects' component={Subjects} />
 			<PrivateRoute path='/timetable' component={Timetable} />
+			<PrivateRoute path='/playlists' component={Playlists} />
 			<PrivateRoute path='/user-profile' component={Profile} />
 			<Route path='/404' component={NotFound} />
 			<Redirect to='/404' />
