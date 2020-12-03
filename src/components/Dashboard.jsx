@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Fade, Row } from "react-bootstrap";
 import headerBg from "../assets/landscape-background.jpg";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { useWindowSize } from "../hooks/useWindowSize";
-import Fade from "react-reveal/Fade";
+// import Fade from "react-reveal/Fade";
 
 import CarouselComponent from "./CarouselComponent";
 
@@ -29,16 +29,19 @@ function Dashboard(props) {
 		backgroundImage: `url(${headerBg})`,
 		backgroundSize: "cover",
 		backgroundPosition: "center",
-		height: fullHeight ? calculatedHeight - 56 : "200px",
+		height: fullHeight ? calculatedHeight - 56 : "215px",
 		transition: "0.3s",
 	};
 
 	useEffect(() => {
 		if (isScrolled) {
 			setFullHeight(false);
-			setIsScrolled(false);
 		}
 	}, [isScrolled]);
+
+	useEffect(() => {
+		setIsScrolled(false);
+	}, [fullHeight]);
 
 	useEffect(() => {
 		setGreeting(greet());
@@ -87,94 +90,98 @@ function Dashboard(props) {
 					!fullHeight ? "dash-minified" : ""
 				}`}
 				style={headerStyling}>
-				{/* <Fade> */}
-				<Row>
-					<Col sm md={9} className='pb-2 pb-sm-1'>
-						<div className='display-4'>
-							{greeting}, {currentUser._firstName}
+				<Fade appear in>
+					<div className='d-flex flex-column h-100'>
+						<Row>
+							<Col sm md={9} className='pb-2 pb-sm-1'>
+								<div className='display-4'>
+									{greeting}, {currentUser._firstName}
+									<Button
+										className='ml-2 ml-lg-3'
+										variant='outline-primary'
+										size='sm'
+										onClick={() => handleFullHeight(true)}>
+										Toggle Dashboard
+									</Button>
+								</div>
+							</Col>
+						</Row>
+
+						<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
+						<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
+							<Col sm className='d-flex flex-column'>
+								<h1>Class at 14:00, Today</h1>
+								<p style={truncate}>Web Programming</p>
+								<div className='bottom-right'>
+									<Button className='btn-primary btn-sm'>
+										Go to Timetables
+									</Button>
+								</div>
+							</Col>
+							<Col sm className='d-flex flex-column'>
+								<h1>
+									{currentUser.tasks.filter((task) => task.status !== 3).length}{" "}
+									Task(s)
+								</h1>
+								<p style={truncate}>
+									{currentUser.tasks
+										.filter((task) => task.status !== 3)
+										.map((task) => task.name)
+										.join(", ")}
+								</p>
+								<div className='bottom-right'>
+									<Button className='btn-primary btn-sm'>Go to Tasks</Button>
+								</div>
+							</Col>
+							<Col sm className='d-flex flex-column'>
+								<h1>
+									{
+										currentUser.agendas.filter((agenda) => agenda.status !== 3)
+											.length
+									}{" "}
+									Agenda(s)
+								</h1>
+								<p style={truncate}>
+									{currentUser.agendas
+										.filter((agenda) => agenda.status !== 3)
+										.map((agenda) => agenda.name)
+										.join(", ")}
+								</p>
+								<div className='bottom-right'>
+									<Button className='btn-primary btn-sm'>Go to Agendas</Button>
+								</div>
+							</Col>
+						</Row>
+
+						{/* https://open.spotify.com/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ */}
+						<div className='music-container'>
+							<h3>Music?</h3>
+							<iframe
+								title='spotify'
+								src='https://open.spotify.com/embed/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ'
+								width='300'
+								height='80'
+								frameBorder='0'
+								allowtransparency='true'
+								allow='encrypted-media'></iframe>
+						</div>
+
+						<div className='flex-grow-1' />
+						<div
+							className={`${
+								!fullHeight ? "invisible" : "visible"
+							} d-flex justify-content-center overflow-hidden`}>
 							<Button
-								className='ml-2 ml-lg-3'
 								variant='outline-primary'
-								size='sm'
-								onClick={() => handleFullHeight(true)}>
-								Toggle Dashboard
+								onClick={() => setFullHeight(false)}>
+								<MdKeyboardArrowUp style={{ transform: "scale(2,2)" }} />
 							</Button>
 						</div>
-					</Col>
-				</Row>
-
-				<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
-				<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
-					<Col sm className='d-flex flex-column'>
-						<h1>Class at 14:00, Today</h1>
-						<p style={truncate}>Web Programming</p>
-						<div className='bottom-right'>
-							<Button className='btn-primary btn-sm'>Go to Timetables</Button>
-						</div>
-					</Col>
-					<Col sm className='d-flex flex-column'>
-						<h1>
-							{currentUser.tasks.filter((task) => task.status !== 3).length}{" "}
-							Task(s)
-						</h1>
-						<p style={truncate}>
-							{currentUser.tasks
-								.filter((task) => task.status !== 3)
-								.map((task) => task.name)
-								.join(", ")}
-						</p>
-						<div className='bottom-right'>
-							<Button className='btn-primary btn-sm'>Go to Tasks</Button>
-						</div>
-					</Col>
-					<Col sm className='d-flex flex-column'>
-						<h1>
-							{
-								currentUser.agendas.filter((agenda) => agenda.status !== 3)
-									.length
-							}{" "}
-							Agenda(s)
-						</h1>
-						<p style={truncate}>
-							{currentUser.agendas
-								.filter((agenda) => agenda.status !== 3)
-								.map((agenda) => agenda.name)
-								.join(", ")}
-						</p>
-						<div className='bottom-right'>
-							<Button className='btn-primary btn-sm'>Go to Agendas</Button>
-						</div>
-					</Col>
-				</Row>
-
-				{/* https://open.spotify.com/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ */}
-				<div className='music-container'>
-					<h3>Music?</h3>
-					<iframe
-						title='spotify'
-						src='https://open.spotify.com/embed/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ'
-						width='300'
-						height='80'
-						frameBorder='0'
-						allowtransparency='true'
-						allow='encrypted-media'></iframe>
-				</div>
-
-				<div className='flex-grow-1' />
-				<div
-					className={`${
-						!fullHeight ? "invisible" : "visible"
-					} d-flex justify-content-center overflow-hidden`}>
-					<Button
-						variant='outline-primary'
-						onClick={() => setFullHeight(false)}>
-						<MdKeyboardArrowUp style={{ transform: "scale(2,2)" }} />
-					</Button>
-				</div>
-				{/* </Fade> */}
+					</div>
+				</Fade>
 			</Container>
 
-			<Fade delay={100} when={!fullHeight}>
+			<Fade appear in={!fullHeight} className='delay-1'>
 				<Container fluid className='pt-3'>
 					<CarouselComponent
 						title='tasks'
@@ -185,7 +192,7 @@ function Dashboard(props) {
 				</Container>
 			</Fade>
 
-			<Fade delay={300} when={!fullHeight}>
+			<Fade appear in={!fullHeight} className='delay-2'>
 				<Container fluid className='pt-3'>
 					<CarouselComponent
 						title='agendas'
