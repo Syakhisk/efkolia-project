@@ -11,7 +11,7 @@ function CarouselComponent({ items, title }) {
 		0: { items: 1 },
 		576: { items: 2 },
 		768: { items: 3 },
-		1024: { items: 5 },
+		1024: { items: 4 },
 	};
 
 	const completionStatus = (status) => {
@@ -44,10 +44,9 @@ function CarouselComponent({ items, title }) {
 		textOverflow: "ellipsis",
 	};
 
-	console.log(`${title} length is ${items.length}`);
-
 	const renderedItems = items.map((item, idx) => (
 		<div key={idx} className='caro-item p-3 mx-2 rounded'>
+			<small className='font-weight-bold'>{item.classCode}</small>
 			<h6 className='font-weight-bold' style={truncate}>
 				{item.classname}
 			</h6>
@@ -71,12 +70,14 @@ function CarouselComponent({ items, title }) {
 					<Col sm={5} md={7} className='px-0 d-flex'>
 						<ButtonGroup className='pt-0 pb-3 h-100'>
 							<Button
+								variant='outline-success'
 								size='sm'
 								onClick={() => carousel?.slidePrev()}
 								className='py-auto'>
 								{"<"}
 							</Button>
 							<Button
+								variant='outline-success'
 								size='sm'
 								onClick={() => carousel?.slideNext()}
 								className='py-auto'>
@@ -94,7 +95,11 @@ function CarouselComponent({ items, title }) {
 								style={{ minWidth: "70px" }}>
 								Sort By:
 							</Form.Label>
-							<Form.Control className='d-inline' as='select' size='sm' custom>
+							<Form.Control
+								className='d-inline border border-success bg-dark text-light'
+								as='select'
+								size='sm'
+								custom>
 								<option>Date Added</option>
 								<option>Deadline</option>
 								<option>Status</option>
@@ -105,6 +110,7 @@ function CarouselComponent({ items, title }) {
 				{items.length ? (
 					<AliceCarousel
 						// disableDotsControls
+						mouseTracking
 						disableButtonsControls
 						items={renderedItems}
 						responsive={responsive}

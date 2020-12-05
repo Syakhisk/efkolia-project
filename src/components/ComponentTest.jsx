@@ -9,7 +9,6 @@ function Test() {
 	);
 
 	// React.useEffect(() => {
-
 	// 	//do not delete❗
 	// 	const fetchData = async () => {
 	// 		const record = await db
@@ -43,9 +42,18 @@ function Test() {
 	});
 
 	const convertedTime = moment().hours();
-
+	
+	
 	return (
 		<>
+			{/* <div
+				className='btn btn-primary'
+				onClick={() => {
+					if (window.confirm("Are you sure you wish to delete this item?")){
+						console.log(true)
+					} else console.log(false)
+				}}
+			/>
 			<h1>{time}</h1>
 			<h1>minutes {moment().minutes()}</h1>
 			<h1>
@@ -56,7 +64,7 @@ function Test() {
 				difference{" "}
 				{(moment("21:00", "hh:mm").diff(moment()) / 60 / 1000).toFixed(1)}
 			</h1>
-			<h1>{day}</h1>
+			<h1>{day}</h1> */}
 			{/* <div>Classes</div>
 			<ul>
 				{user.classes.map((kelas, idx) => (

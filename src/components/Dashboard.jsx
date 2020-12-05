@@ -18,6 +18,7 @@ function Dashboard(props) {
 	const size = useWindowSize();
 	const contentRef = useRef(0);
 	const { currentUser, logout } = useAuth();
+	const [userUpdated, setUserUpdated] = useState(currentUser);
 	const [error, setError] = useState("");
 	const history = useHistory();
 	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
@@ -30,7 +31,7 @@ function Dashboard(props) {
 		backgroundSize: "cover",
 		backgroundPosition: "center",
 		height: fullHeight ? calculatedHeight - 56 : "215px",
-		transition: "0.3s",
+		transition: "height 0.3s ease",
 	};
 
 	useEffect(() => {
@@ -46,6 +47,11 @@ function Dashboard(props) {
 	useEffect(() => {
 		setGreeting(greet());
 	}, []);
+
+	useEffect(() => {
+		console.log("changed!");
+		setUserUpdated(currentUser);
+	}, [currentUser]);
 
 	// useEffect(() => {
 
@@ -95,7 +101,7 @@ function Dashboard(props) {
 						<Row>
 							<Col sm md={9} className='pb-2 pb-sm-1'>
 								<div className='display-4'>
-									{greeting}, {currentUser._firstName}
+									{greeting}, {userUpdated._firstName}
 									<Button
 										className='ml-2 ml-lg-3'
 										variant='outline-primary'
@@ -120,11 +126,11 @@ function Dashboard(props) {
 							</Col>
 							<Col sm className='d-flex flex-column'>
 								<h1>
-									{currentUser.tasks.filter((task) => task.status !== 3).length}{" "}
+									{userUpdated.tasks.filter((task) => task.status !== 3).length}{" "}
 									Task(s)
 								</h1>
 								<p style={truncate}>
-									{currentUser.tasks
+									{userUpdated.tasks
 										.filter((task) => task.status !== 3)
 										.map((task) => task.name)
 										.join(", ")}
@@ -136,13 +142,13 @@ function Dashboard(props) {
 							<Col sm className='d-flex flex-column'>
 								<h1>
 									{
-										currentUser.agendas.filter((agenda) => agenda.status !== 3)
+										userUpdated.agendas.filter((agenda) => agenda.status !== 3)
 											.length
 									}{" "}
 									Agenda(s)
 								</h1>
 								<p style={truncate}>
-									{currentUser.agendas
+									{userUpdated.agendas
 										.filter((agenda) => agenda.status !== 3)
 										.map((agenda) => agenda.name)
 										.join(", ")}
@@ -182,25 +188,25 @@ function Dashboard(props) {
 			</Container>
 
 			<Fade appear in={!fullHeight} className='delay-1'>
-				<Container fluid className='pt-3'>
-					<CarouselComponent
-						title='tasks'
-						items={currentUser.tasks}
-						toggled={toggled}
-						collapsed={collapsed}
-					/>
-				</Container>
-			</Fade>
+				<div>
+					<Container fluid className='pt-3'>
+						<CarouselComponent
+							title='tasks'
+							items={userUpdated.tasks}
+							toggled={toggled}
+							collapsed={collapsed}
+						/>
+					</Container>
 
-			<Fade appear in={!fullHeight} className='delay-2'>
-				<Container fluid className='pt-3'>
-					<CarouselComponent
-						title='agendas'
-						items={currentUser.agendas}
-						toggled={toggled}
-						collapsed={collapsed}
-					/>
-				</Container>
+					<Container fluid className='pt-3'>
+						<CarouselComponent
+							title='agendas'
+							items={userUpdated.agendas}
+							toggled={toggled}
+							collapsed={collapsed}
+						/>
+					</Container>
+				</div>
 			</Fade>
 		</div>
 	);

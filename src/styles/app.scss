@@ -123,8 +123,12 @@ CAROUSEL
 .modal-dialog {
 	max-width: 500px;
 }
-.dropleft .dropdown-toggle::before {
+.dropdown-toggle::after {
 	display: none;
+}
+
+.dropdown-menu.show {
+	left: -100%;
 }
 
 .vl {
@@ -151,4 +155,23 @@ Carousel
 
 .bg-vdark {
 	background-color: $gray-900;
+}
+
+.truncate {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.fade {
+	transition: opacity 0.3s ease-in;
+}
+
+.delay-1 {
+	transition-delay: 0.3s;
+}
+.delay-2 {
+	transition-delay: 0.3s;
 }
