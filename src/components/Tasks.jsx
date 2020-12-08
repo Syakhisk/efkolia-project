@@ -7,10 +7,6 @@ function Tasks() {
 	const { currentUser, getClassData } = useAuth();
 	const { tasks, classes } = currentUser;
   const [selectedClass, setSelectedClass] = useState(classes[0].classCode);
-
-  const switchClass = (classCode) => {
-
-  }
   
 	const renderedClass = classes.map((classItem, idx) => (
 		<option key={idx} className='h1' key={classItem.classCode} value={classItem.classCode}>
