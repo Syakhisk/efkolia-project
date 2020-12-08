@@ -182,7 +182,10 @@ function AddNewEntry(props) {
 						</Button>
 						<Button
 							variant='outline-danger'
-							onClick={() => resetForm()}
+							onClick={() => {
+								setModalShow(false);
+								resetForm();
+							}}
 							className='px-3'>
 							Cancel
 						</Button>

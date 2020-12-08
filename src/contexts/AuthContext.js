@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
 	//change these methods' return value if we wanted to change db
 	async function signup(email, password, firstName, lastName = "") {
 		await auth.createUserWithEmailAndPassword(email, password);
-		
+
 		await db.collection("users").add({
 			_email: email,
 			_firstName: firstName,
@@ -50,16 +50,18 @@ export function AuthProvider({ children }) {
 		return type;
 	}
 
-	async function getClassName(classCode) {
-		const className = await db
-			.collection("users")
-			.doc(currentUser.docId)
-			.where("classCodes", "array-contains", "wp")
-			.get();
-
-		className.forEach((classItem) => console.log(classItem.data()));
-
-		return className;
+	async function getClassData(classCode) {
+		const user = await db.collection("users").doc(currentUser.docId).get();
+		// const classNames = await user.where(
+		// 	"classCode",
+		// 	"array-contains",
+		// 	classCode
+		// ).get()
+		const data = user.data();
+		const filteredArray = data.classes.find((el) => el.classCode == classCode)
+		// console.log(filteredArray)
+		//manually filter array
+		return filteredArray;
 	}
 
 	useEffect(() => {
@@ -105,7 +107,7 @@ export function AuthProvider({ children }) {
 
 	const value = {
 		currentUser,
-		getClassName,
+		getClassData,
 		signup,
 		changePassword,
 		login,

@@ -15,10 +15,10 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	const [date, setDate] = useState(moment().format("dddd, MMMM Do YYYY"));
 	const [modalShow, setModalShow] = useState(false);
 
-	// setTimeout(() => {
-	// 	setClock(moment().format("hh:mm:ss"));
-	// 	setDate(moment().format("dddd, MMMM Do YYYY"));
-	// }, 1000);
+	setTimeout(() => {
+		setClock(moment().format("hh:mm:ss"));
+		setDate(moment().format("dddd, MMMM Do YYYY"));
+	}, 1000);
 
 	return (
 		<>

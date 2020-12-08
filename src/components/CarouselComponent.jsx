@@ -3,6 +3,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
 import { Button, ButtonGroup, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import CompletionStatus from "./CompletionStatus"
 
 function CarouselComponent({ items, title }) {
 	const [carousel, setCarousel] = useState(null);
@@ -12,28 +13,6 @@ function CarouselComponent({ items, title }) {
 		576: { items: 2 },
 		768: { items: 3 },
 		1024: { items: 4 },
-	};
-
-	const completionStatus = (status) => {
-		if (status === 0) {
-			return (
-				<div className='badge badge-primary flex-grow-1 p-2'>
-					Status: Not Yet Started
-				</div>
-			);
-		} else if (status === 1) {
-			return (
-				<div className='badge badge-warning flex-grow-1 p-2'>
-					Status: On Going
-				</div>
-			);
-		} else {
-			return (
-				<div className='badge badge-success flex-grow-1 p-2'>
-					Status: Finished
-				</div>
-			);
-		}
 	};
 
 	const truncate = {
@@ -58,7 +37,7 @@ function CarouselComponent({ items, title }) {
 			</h6>
 			<hr className='my-2' />
 			<div className='d-flex justify-content-center'>
-				{completionStatus(item.status)}
+				<CompletionStatus status={item.status} />
 			</div>
 		</div>
 	));
