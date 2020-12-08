@@ -14,6 +14,7 @@ export function AuthProvider({ children }) {
 	//change these methods' return value if we wanted to change db
 	async function signup(email, password, firstName, lastName = "") {
 		await auth.createUserWithEmailAndPassword(email, password);
+		
 		await db.collection("users").add({
 			_email: email,
 			_firstName: firstName,
