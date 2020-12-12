@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { db } from "../firebase";
@@ -42,10 +44,12 @@ function Test() {
 	});
 
 	const convertedTime = moment().hours();
-	
-	
+
 	return (
 		<>
+			<div className="d-flex h-100 w-100 vh-center test">
+				<h1>This is a display test</h1>
+			</div>
 			{/* <div
 				className='btn btn-primary'
 				onClick={() => {

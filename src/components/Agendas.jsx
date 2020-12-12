@@ -4,8 +4,8 @@ import { useAuth } from "../contexts/AuthContext";
 import CompletionStatus from "./CompletionStatus";
 
 function Agendas() {
-	const { currentUser, getClassData } = useAuth();
-	const { agendas, classes } = currentUser;
+	const { currentUser } = useAuth();
+	const { agendas } = currentUser;
 	const renderedRow = agendas
 		.map((agendaItem, idx) => (
 			<tr key={idx}>

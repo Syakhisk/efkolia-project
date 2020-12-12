@@ -90,36 +90,6 @@ CAROUSEL
 	background-color: $gray-700;
 }
 
-// .caro-item {
-// 	white-space: nowrap;
-// 	// overflow: hidden;
-// 	// text-overflow: ellipsis;
-// }
-
-.slick-list {
-	margin: 0 -5px;
-}
-.slick-slide {
-	overflow: hidden;
-	div {
-		padding: 0 5px;
-	}
-	h4 {
-		display: -webkit-box;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-	}
-	h6 {
-		display: -webkit-box;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-	}
-}
-
 .modal-dialog {
 	max-width: 500px;
 }
@@ -175,3 +145,28 @@ Carousel
 .delay-2 {
 	transition-delay: 0.3s;
 }
+
+.jcc {
+	justify-content: center;
+}
+
+.aic {
+	align-items: center;
+}
+
+.vh-center {
+	align-items: center;
+	justify-content: center;
+}
+
+// .testing::before {
+// 	content: ""; // ::before and ::after both require content
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	height: 100%;
+// 	background-image: linear-gradient(120deg, #eaee44, #33d0ff);
+// 	opacity: 0.1;
+// 	z-index: 5000;
+// }

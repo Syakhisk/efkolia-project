@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Card, Row, Col, Form, Button } from "react-bootstrap";
-import { MdModeEdit } from "react-icons/md";
-import { useHistory } from "react-router-dom";
+// import { MdModeEdit } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 import Modal from "./ModalComponent";
 
 function Profile() {
-	const { currentUser, changePassword } = useAuth();
-	const history = useHistory();
+	const { currentUser } = useAuth();
+	// const { currentUser, changePassword } = useAuth();
 	const [firstName, setFirstName] = useState(currentUser._firstName);
 	const [lastName, setLastName] = useState(currentUser._lastName);
 	const [email, setEmail] = useState(currentUser.email);
@@ -21,6 +20,7 @@ function Profile() {
 						<div className='avatar-container' style={{}}>
 							<img
 								src='https://i.pravatar.cc/200'
+								alt="avatar"
 								className='rounded-circle'
 								style={{
 									maxWidth: "200px",
@@ -43,7 +43,6 @@ function Profile() {
 				</Row>
 			</Card.Header>
 			<Card.Body className='d-flex justify-content-center'>
-				{/* <Card.Text>quick text</Card.Text> */}
 				<Form className='col-12 col-lg-8'>
 					<Form.Row>
 						<h6>My Profile</h6>

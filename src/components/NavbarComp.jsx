@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Dropdown, Button, Form } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { BiPlus } from "react-icons/bi";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
@@ -51,6 +51,7 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 									as='div'
 									className='btn w-100 my-md-0 my-sm-2 py-2'>
 									<img
+										alt='avatar'
 										src='https://i.pravatar.cc/100'
 										className='rounded-circle'
 										style={{

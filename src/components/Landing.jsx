@@ -22,7 +22,7 @@ function Landing() {
 				<div
 					className='container d-flex flex-column juftify-content-end ml-2 w-auto'
 					style={{ zIndex: 10, position: "fixed", top: "35%" }}>
-					<img src={logo} style={{ width: "150px", marginBottom: "10px" }} />
+					<img alt="logo efkolia" src={logo} style={{ width: "150px", marginBottom: "10px" }} />
 					<h1 className='landing-display display-1 font-weight-bold mb-0'>
 						Efkolia
 					</h1>

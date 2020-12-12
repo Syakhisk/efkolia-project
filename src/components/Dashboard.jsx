@@ -8,22 +8,27 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import CarouselComponent from "./CarouselComponent";
 
 import { greet } from "../random-greetings.js";
-import user from "../objects/user";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
 function Dashboard(props) {
-	const [greeting, setGreeting] = useState("Hello");
-	const [fullHeight, setFullHeight] = useState(true);
 	const size = useWindowSize();
-	const contentRef = useRef(0);
 	const { currentUser, logout } = useAuth();
-	const [userUpdated, setUserUpdated] = useState(currentUser);
-	const [error, setError] = useState("");
+	const [greeting, setGreeting] = useState("Hello");
+	const contentRef = useRef(0);
 	const history = useHistory();
+
+	const { toggled, collapsed, scrollingRef } = props;
+
+	const [fullHeight, setFullHeight] = useState(true);
+	const [userUpdated, setUserUpdated] = useState(currentUser);
+
+	// eslint-disable-next-line
+	const [error, setError] = useState("");
 	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
 
-	const { toggled, collapsed, isScrolled, setIsScrolled } = props;
+	const [scrollPos, setScrollPos] = useState(0);
+	const [scrolling, setScrolling] = useState(false);
 
 	const headerStyling = {
 		background: "#a3a3a3",
@@ -32,41 +37,47 @@ function Dashboard(props) {
 		backgroundPosition: "center",
 		height: fullHeight ? calculatedHeight - 56 : "215px",
 		transition: "height 0.3s ease",
+		cursor: !fullHeight ? "pointer" : "",
 	};
 
+	//debounce the scroll state
 	useEffect(() => {
-		if (isScrolled) {
-			setFullHeight(false);
-		}
-	}, [isScrolled]);
+		const timer = setTimeout(() => {
+			// console.log("Scroll stopped");
+			setScrolling(false);
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [scrollPos]);
 
 	useEffect(() => {
-		setIsScrolled(false);
-	}, [fullHeight]);
+		//listen to db realtime update
+		setUserUpdated(currentUser);
+
+		const onScroll = () => {
+			setScrollPos(scrollingRef.current.scrollTop);
+			if (fullHeight) setFullHeight(false);
+		};
+		scrollingRef.current.addEventListener("scroll", onScroll);
+
+		return () => scrollingRef.current.removeEventListener("scroll", onScroll);
+	}, [currentUser]);
 
 	useEffect(() => {
 		setGreeting(greet());
 	}, []);
 
-	useEffect(() => {
-		console.log("changed!");
-		setUserUpdated(currentUser);
-	}, [currentUser]);
-
-	// useEffect(() => {
-
-	// 	window.addEventListener("scroll", handleScroll);
-	// 	return () => {
-	// 		window.removeEventListener("scroll", handleScroll);
-	// 	};
-	// }, []);
-
-	// const handleScroll = (e) => {
-	// 	setFullHeight(false);
-	// };
-
 	const handleFullHeight = (e) => {
-		setFullHeight(!fullHeight);
+		const c = scrollingRef.current;
+		const isNotOnTop = c.scrollTop;
+		c.scrollTo({ top: 0, behavior: "smooth" });
+
+		setTimeout(
+			() => {
+				setFullHeight(!fullHeight);
+			},
+			isNotOnTop ? 600 : 0
+		);
 	};
 
 	const handleLogout = async () => {
@@ -80,14 +91,6 @@ function Dashboard(props) {
 		}
 	};
 
-	const truncate = {
-		display: "-webkit-box",
-		WebkitBoxOrient: "vertical",
-		WebkitLineClamp: 1,
-		overflow: "hidden",
-		textOverflow: "ellipsis",
-	};
-
 	return (
 		<div id='content-wrapper' ref={contentRef}>
 			<Container
@@ -95,20 +98,15 @@ function Dashboard(props) {
 				className={`welcome-container p-3 ${
 					!fullHeight ? "dash-minified" : ""
 				}`}
+				onClick={() => (!fullHeight ? handleFullHeight(true) : null)}
 				style={headerStyling}>
+				<div className='d-flex vh-center w-100 h-100'></div>
 				<Fade appear in>
 					<div className='d-flex flex-column h-100'>
 						<Row>
 							<Col sm md={9} className='pb-2 pb-sm-1'>
 								<div className='display-4'>
 									{greeting}, {userUpdated._firstName}
-									<Button
-										className='ml-2 ml-lg-3'
-										variant='outline-primary'
-										size='sm'
-										onClick={() => handleFullHeight(true)}>
-										Toggle Dashboard
-									</Button>
 								</div>
 							</Col>
 						</Row>
@@ -117,7 +115,7 @@ function Dashboard(props) {
 						<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
 							<Col sm className='d-flex flex-column'>
 								<h1>Class at 14:00, Today</h1>
-								<p style={truncate}>Web Programming</p>
+								<p className='truncate'>Web Programming</p>
 								<div className='bottom-right'>
 									<Button className='btn-primary btn-sm'>
 										Go to Timetables
@@ -129,7 +127,7 @@ function Dashboard(props) {
 									{userUpdated.tasks.filter((task) => task.status !== 3).length}{" "}
 									Task(s)
 								</h1>
-								<p style={truncate}>
+								<p className='truncate'>
 									{userUpdated.tasks
 										.filter((task) => task.status !== 3)
 										.map((task) => task.name)
@@ -147,7 +145,7 @@ function Dashboard(props) {
 									}{" "}
 									Agenda(s)
 								</h1>
-								<p style={truncate}>
+								<p className='truncate'>
 									{userUpdated.agendas
 										.filter((agenda) => agenda.status !== 3)
 										.map((agenda) => agenda.name)
@@ -160,7 +158,7 @@ function Dashboard(props) {
 						</Row>
 
 						{/* https://open.spotify.com/playlist/37i9dQZF1E35mIgoM5Dq8x?si=FjvDBu8zTqm0XfC2pcEYjQ */}
-						<div className='music-container'>
+						{/* <div className='music-container'>
 							<h3>Music?</h3>
 							<iframe
 								title='spotify'
@@ -170,7 +168,7 @@ function Dashboard(props) {
 								frameBorder='0'
 								allowtransparency='true'
 								allow='encrypted-media'></iframe>
-						</div>
+						</div> */}
 
 						<div className='flex-grow-1' />
 						<div
@@ -192,6 +190,7 @@ function Dashboard(props) {
 					<Container fluid className='pt-3'>
 						<CarouselComponent
 							title='tasks'
+							classes={userUpdated.classes}
 							items={userUpdated.tasks}
 							toggled={toggled}
 							collapsed={collapsed}

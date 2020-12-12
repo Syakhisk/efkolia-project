@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useRef, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 
@@ -25,8 +27,42 @@ import "./styles/app.scss";
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
 	const contentRef = useRef();
+	const [isScrolled, setIsScrolled] = useState(false);
 	const [toggled, setToggled] = useState(false);
 	const location = useLocation().pathname;
+
+	const [scrolling, setScrolling] = useState(false);
+
+	// const handleScroll = (e) => {
+	// 	if (!isScrolled) {
+	// 		setIsScrolled(true);
+	// 	}
+	// };
+
+	//reset timer if scrolling
+	useEffect(() => {
+		if(contentRef.current){
+			console.log("defined")
+		} else {
+			console.log("undefined")
+		}
+		// const onScroll = () => {
+		// 	//reset timer
+		// 	console.log("scrolling");
+		// };
+		// contentRef.current.addEventListener("scroll", onScroll);
+
+		// return () => {
+		// 	contentRef.current.removeEventListener("scroll", onScroll);
+		// };
+	}, []);
+
+	// useEffect(() => {
+	// 	const timer = setTimeout(() => {
+	// 		console.log("Scroll stopped")
+	// 	}, 500);
+
+	// }, [scrolling])
 
 	const handleCollapsedChange = (checked) => {
 		setCollapsed(checked);
@@ -45,8 +81,8 @@ function App() {
 			<Route path='/signup' component={Signup}></Route>
 			<PrivateRoute
 				path='/dashboard'
-				// setIsScrolling={setIsScrolling}
-				// isScrolling={isScrolling}
+				setIsScrolled={setIsScrolled}
+				isScrolled={isScrolled}
 				collapsed={collapsed}
 				component={Dashboard}
 				scrollingRef={contentRef}
@@ -63,7 +99,7 @@ function App() {
 	);
 
 	if (
-		location === "/" ||
+		// location === "/" ||
 		location === "/404" ||
 		location === "/login" ||
 		location === "/signup" ||
@@ -76,22 +112,22 @@ function App() {
 	return (
 		<AuthProvider>
 			<div className={`app ${toggled ? "toggled" : ""}`}>
-				<Sidebar
+				{/* <Sidebar
 					collapsed={collapsed}
 					toggled={toggled}
 					handleToggleSidebar={handleToggleSidebar}
 					handleCollapsedChange={handleCollapsedChange}
-				/>
+				/> */}
 
 				<div
 					ref={contentRef}
 					className='content'
 					style={{ marginLeft: collapsed ? 80 : 270 }}>
-					<Navbar
+					{/* <Navbar
 						location={location}
 						handleToggleSidebar={handleToggleSidebar}
 						toggled={toggled}
-					/>
+					/> */}
 					<main>{renderedRouting}</main>
 				</div>
 			</div>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Table, Accordion } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import CompletionStatus from "./CompletionStatus";
 
 function Tasks() {
-	const { currentUser, getClassData } = useAuth();
+	const { currentUser } = useAuth();
 	const { tasks, classes } = currentUser;
 	const [selectedClass, setSelectedClass] = useState(classes[0].classCode);
 
@@ -12,18 +12,18 @@ function Tasks() {
 		<option
 			key={idx}
 			className='h1'
-			key={classItem.classCode}
 			value={classItem.classCode}>
 			{classItem.className}
 		</option>
 	));
 
 	const renderedRow = tasks
-		.filter((e) => e.classCode == selectedClass)
+		.filter((e) => e.classCode === selectedClass)
 		.map((taskItem, idx) => (
 			<tr key={idx}>
 				<td>{idx + 1}</td>
 				<td>{taskItem.name}</td>
+				<td>{taskItem.description}</td>
 				<td>
 					<div className='d-flex justify-content-center align-items-center h-100'>
 						<CompletionStatus status={taskItem.status} />
@@ -67,16 +67,16 @@ function Tasks() {
 							/>
 							<h6 className='mb-0 mt-3'>Class Name:</h6>
 							<h1 className='display-3 p-0' style={{ lineHeight: "4rem" }}>
-								{classes.find((el) => el.classCode == selectedClass).className}
+								{classes.find((el) => el.classCode === selectedClass).className}
 							</h1>
 							<h6 className='mb-0 mt-3'>Lecturer:</h6>
 							<h4>
-								{classes.find((el) => el.classCode == selectedClass).namaDosen}
+								{classes.find((el) => el.classCode === selectedClass).namaDosen}
 							</h4>
 							<h6 className='mb-0 mt-3'>Schedule:</h6>
 							<h4>
 								{JSON.stringify(
-									classes.find((el) => el.classCode == selectedClass).schedule
+									classes.find((el) => el.classCode === selectedClass).schedule
 								)}
 							</h4>
 						</div>
@@ -90,6 +90,7 @@ function Tasks() {
 						<th style={{ width: "2rem" }}>#</th>
 						<th>Task Name</th>
 						<th>Status</th>
+						<th>Description</th>
 						<th>Deadline</th>
 						<th>Action</th>
 					</tr>

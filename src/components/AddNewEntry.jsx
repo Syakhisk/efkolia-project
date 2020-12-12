@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, Button, Col, Alert } from "react-bootstrap";
+import { Form, Button, Col, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import ModalComponent from "./ModalComponent";
 import moment from "moment";
@@ -13,7 +13,7 @@ function AddNewEntry(props) {
 		currentUser?.classes[0]?.classCode
 	);
 	const [entryName, setEntryName] = useState("");
-	const [entryCode, setEntryCode] = useState("");
+	// const [entryCode, setEntryCode] = useState("");
 	const [timeDeadline, setTimeDeadline] = useState("");
 	const [dateDeadline, setDateDeadline] = useState("");
 	const [reminder, setReminder] = useState([]);
@@ -30,6 +30,7 @@ function AddNewEntry(props) {
 		setDateDeadline("");
 		setTimeDeadline("");
 		setDescription("");
+		setReminder("");
 
 		setError("");
 	};
@@ -141,6 +142,14 @@ function AddNewEntry(props) {
 						/>
 					</Form.Row>
 					<Form.Row className='mb-2'>
+						<Form.Label>Reminder:</Form.Label>
+						<Form.Control
+							type='text'
+							value={reminder}
+							onChange={(e) => setReminder(e.currentTarget.value)}
+						/>
+					</Form.Row>
+					<Form.Row className='mb-2'>
 						<Col className='p-0 mr-3'>
 							<Form.Label>Deadline Date:</Form.Label>
 							<Form.Control
@@ -184,10 +193,11 @@ function AddNewEntry(props) {
 							variant='outline-danger'
 							onClick={() => {
 								setModalShow(false);
+								setDialog("");
 								resetForm();
 							}}
 							className='px-3'>
-							Cancel
+							{dialog ? "Done" : "Cancel"}
 						</Button>
 					</Form.Row>
 				</Form>

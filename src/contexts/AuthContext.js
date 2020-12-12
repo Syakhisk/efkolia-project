@@ -9,6 +9,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 	const [currentUser, setCurrentUser] = useState();
+	// eslint-disable-next-line
 	const [loading, setLoading] = useState(true);
 
 	//change these methods' return value if we wanted to change db
@@ -25,6 +26,7 @@ export function AuthProvider({ children }) {
 		});
 	}
 
+	// eslint-disable-next-line
 	function changeEmail(newEmail) {}
 
 	async function changePassword(newPassword) {
@@ -58,9 +60,8 @@ export function AuthProvider({ children }) {
 		// 	classCode
 		// ).get()
 		const data = user.data();
-		const filteredArray = data.classes.find((el) => el.classCode == classCode)
-		// console.log(filteredArray)
-		//manually filter array
+		const filteredArray = data.classes.find((el) => el.classCode === classCode);
+
 		return filteredArray;
 	}
 

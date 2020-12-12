@@ -3,9 +3,10 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
 import { Button, ButtonGroup, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import CompletionStatus from "./CompletionStatus"
+import CompletionStatus from "./CompletionStatus";
 
-function CarouselComponent({ items, title }) {
+function CarouselComponent(props) {
+	const { items, title, classes } = props;
 	const [carousel, setCarousel] = useState(null);
 
 	const responsive = {
@@ -15,21 +16,18 @@ function CarouselComponent({ items, title }) {
 		1024: { items: 4 },
 	};
 
-	const truncate = {
-		display: "-webkit-box",
-		WebkitBoxOrient: "vertical",
-		WebkitLineClamp: 1,
-		overflow: "hidden",
-		textOverflow: "ellipsis",
-	};
-
 	const renderedItems = items.map((item, idx) => (
 		<div key={idx} className='caro-item p-3 mx-2 rounded'>
-			<small className='font-weight-bold'>{item.classCode}</small>
-			<h6 className='font-weight-bold' style={truncate}>
-				{item.classname}
-			</h6>
-			<h4 className='font-weight-bold' style={truncate}>
+			{title === "tasks" ? (
+				<small
+					className='font-weight-bold truncate'
+					title={
+						classes.find((el) => el.classCode === item.classCode).className
+					}>
+					{classes.find((el) => el.classCode === item.classCode).className}
+				</small>
+			) : null}
+			<h4 className='font-weight-bold truncate' title={item.name}>
 				{item.name}
 			</h4>
 			<h6>

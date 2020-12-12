@@ -14,7 +14,7 @@ function Signup() {
 	const history = useHistory();
 
 	//handle if user already logged in
-	// if(currentUser) history.push("/dashboard")
+	if(currentUser) history.push("/dashboard")
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
