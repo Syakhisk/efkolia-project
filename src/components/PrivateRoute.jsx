@@ -12,8 +12,6 @@ function PrivateRoute({ component: Component, ...rest }) {
 				return currentUser ? (
 					<Component
 						{...props}
-						isScrolled={rest.isScrolled}
-						setIsScrolled={rest.setIsScrolled}
 						collapsed={rest.collapsed}
 						scrollingRef={rest.scrollingRef}
 					/>

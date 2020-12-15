@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 /*Route Components*/
@@ -23,7 +23,7 @@ import AuthProvider from "./contexts/AuthContext";
 import "./styles/app.scss";
 
 function App() {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
 	const contentRef = useRef();
 	const [toggled, setToggled] = useState(false);
 	const location = useLocation().pathname;
@@ -45,8 +45,6 @@ function App() {
 			<Route path='/signup' component={Signup}></Route>
 			<PrivateRoute
 				path='/dashboard'
-				// setIsScrolling={setIsScrolling}
-				// isScrolling={isScrolling}
 				collapsed={collapsed}
 				component={Dashboard}
 				scrollingRef={contentRef}
