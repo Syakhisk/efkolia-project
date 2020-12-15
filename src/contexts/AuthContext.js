@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth, db, FieldValue } from "../firebase";
+// eslint-disable-next-line
 
 const AuthContext = React.createContext();
 
@@ -65,6 +66,10 @@ export function AuthProvider({ children }) {
 		return filteredArray;
 	}
 
+	async function getUserClasses() {
+		const user = await db.collection("users").doc(currentUser.docId).collection("classes").get();
+	}
+	
 	useEffect(() => {
 		const getRecord = async (email) => {
 			const collection = db.collection("users");
@@ -109,6 +114,7 @@ export function AuthProvider({ children }) {
 	const value = {
 		currentUser,
 		getClassData,
+		getUserClasses,
 		signup,
 		changePassword,
 		login,

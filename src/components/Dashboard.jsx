@@ -10,6 +10,7 @@ import CarouselComponent from "./CarouselComponent";
 import { greet } from "../random-greetings.js";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import useUpcomingClass from "../hooks/useUpcomingClass";
 
 function Dashboard(props) {
 	const size = useWindowSize();
@@ -30,6 +31,10 @@ function Dashboard(props) {
 	const [scrollPos, setScrollPos] = useState(0);
 	const [scrolling, setScrolling] = useState(false);
 
+	const upcomingClass = useUpcomingClass(currentUser.classes);
+
+	// console.log(Object.keys(upcomingClass));
+
 	const headerStyling = {
 		background: "#a3a3a3",
 		backgroundImage: `url(${headerBg})`,
@@ -39,6 +44,10 @@ function Dashboard(props) {
 		transition: "height 0.3s ease",
 		cursor: !fullHeight ? "pointer" : "",
 	};
+
+	useEffect(() => {
+		setGreeting(greet());
+	}, []);
 
 	//debounce the scroll state
 	useEffect(() => {
@@ -62,10 +71,6 @@ function Dashboard(props) {
 
 		return () => scrollingRef.current.removeEventListener("scroll", onScroll);
 	}, [currentUser]);
-
-	useEffect(() => {
-		setGreeting(greet());
-	}, []);
 
 	const handleFullHeight = (e) => {
 		const c = scrollingRef.current;
@@ -91,6 +96,11 @@ function Dashboard(props) {
 		}
 	};
 
+	const unfinishedTasks = userUpdated.tasks.filter((task) => task.status !== 3);
+	const unfinishedAgendas = userUpdated.agendas.filter(
+		(agenda) => agenda.status !== 3
+	);
+
 	return (
 		<div id='content-wrapper' ref={contentRef}>
 			<Container
@@ -114,42 +124,46 @@ function Dashboard(props) {
 						<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
 						<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
 							<Col sm className='d-flex flex-column'>
-								<h1>Class at 14:00, Today</h1>
-								<p className='truncate'>Web Programming</p>
-								<div className='bottom-right'>
-									<Button className='btn-primary btn-sm'>
-										Go to Timetables
-									</Button>
-								</div>
+								{Object.keys(upcomingClass).length ? (
+									<>
+										<h1>{`Class at ${upcomingClass.schedule.timeStart}, Today`}</h1>
+										<p className='truncate'>{upcomingClass.className}</p>
+										<div className='bottom-right'>
+											<Button className='btn-primary btn-sm'>
+												Go to Timetables
+											</Button>
+										</div>
+									</>
+								) : (
+									<h3>No upcoming class for today, Horray!</h3>
+								)}
 							</Col>
 							<Col sm className='d-flex flex-column'>
-								<h1>
-									{userUpdated.tasks.filter((task) => task.status !== 3).length}{" "}
-									Task(s)
-								</h1>
+								<h1>{`${unfinishedTasks.length} Task(s)`}</h1>
 								<p className='truncate'>
-									{userUpdated.tasks
-										.filter((task) => task.status !== 3)
-										.map((task) => task.name)
-										.join(", ")}
+									{unfinishedTasks.length ? (
+										<div className='truncate' style={{ maxWidth: "300px" }}>
+											{`${unfinishedTasks.map((o) => o.name)}`}
+										</div>
+									) : null}
+									{/* {unfinishedTasks.length
+										? `${unfinishedTasks[0].name}, 
+									unfinishedTasks[1].name},
+									and ${unfinishedTasks.length && unfinishedTasks.length - 2} other...`
+										: "Horray, no task!"} */}
 								</p>
 								<div className='bottom-right'>
 									<Button className='btn-primary btn-sm'>Go to Tasks</Button>
 								</div>
 							</Col>
 							<Col sm className='d-flex flex-column'>
-								<h1>
-									{
-										userUpdated.agendas.filter((agenda) => agenda.status !== 3)
-											.length
-									}{" "}
-									Agenda(s)
-								</h1>
+								<h1>{`${unfinishedAgendas.length} Agenda(s)`}</h1>
 								<p className='truncate'>
-									{userUpdated.agendas
-										.filter((agenda) => agenda.status !== 3)
-										.map((agenda) => agenda.name)
-										.join(", ")}
+									{unfinishedAgendas.length
+										? `${unfinishedAgendas[0].name}, 
+									unfinishedAgendas[1].name},
+									and ${unfinishedAgendas.length && unfinishedAgendas.length - 2} other...`
+										: "Horray, no agenda!"}
 								</p>
 								<div className='bottom-right'>
 									<Button className='btn-primary btn-sm'>Go to Agendas</Button>
