@@ -11,8 +11,8 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/efkolia-logo.svg";
 import links from "../objects/nav-links";
 import { useHistory } from "react-router-dom";
+// eslint-disable-next-line
 import { MdPerson, MdChevronRight, MdChevronLeft } from "react-icons/md";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function Sidebar(props) {
 	const {
@@ -24,10 +24,10 @@ function Sidebar(props) {
 
 	const history = useHistory();
 
-	const noTooltip = <div></div>;
-
 	return (
 		<ProSidebar
+			onMouseEnter={() => handleCollapsedChange(false)}
+			onMouseLeave={() => handleCollapsedChange(true)}
 			collapsed={collapsed}
 			toggled={toggled}
 			breakPoint='md'
@@ -35,7 +35,7 @@ function Sidebar(props) {
 			<SidebarHeader>
 				<div
 					className='sidebar-brand-header'
-					style={{cursor: "pointer"}}
+					style={{ cursor: "pointer" }}
 					onClick={() => history.push("/dashboard")}>
 					<img
 						src={logo}
@@ -50,32 +50,18 @@ function Sidebar(props) {
 			<SidebarContent>
 				<Menu iconShape={"circle"}>
 					{links.map(({ link, text, icon }, index) => (
-						<OverlayTrigger
-							key={index}
-							placement='right'
-							delay={{ show: 250, hide: 100 }}
-							overlay={
-								collapsed ? (
-									<Tooltip id='button-tooltip' {...props}>
-										{text}
-									</Tooltip>
-								) : (
-									noTooltip
-								)
-							}>
-							<MenuItem icon={icon}>
-								<NavLink to={link}>{text}</NavLink>
-							</MenuItem>
-						</OverlayTrigger>
+						<MenuItem icon={icon} key={index}>
+							<NavLink to={link}>{text}</NavLink>
+						</MenuItem>
 					))}
 				</Menu>
 
-				<Menu iconShape='circle' id='toggle-collapsed'>
+				{/* <Menu iconShape='circle' id='toggle-collapsed'>
 					<MenuItem
 						icon={collapsed ? <MdChevronRight /> : <MdChevronLeft />}
 						onClick={() => handleCollapsedChange(!collapsed)}
 					/>
-				</Menu>
+				</Menu> */}
 			</SidebarContent>
 
 			<SidebarFooter>
