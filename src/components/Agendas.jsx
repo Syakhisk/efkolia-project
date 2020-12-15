@@ -11,6 +11,7 @@ function Agendas() {
 			<tr key={idx}>
 				<td>{idx + 1}</td>
 				<td>{agendaItem.name}</td>
+				<td>{agendaItem.description}</td>
 				<td>
 					<div className='d-flex justify-content-center align-items-center h-100'>
 						<CompletionStatus status={agendaItem.status} />
@@ -30,8 +31,9 @@ function Agendas() {
 			<Table striped bordered hover size='sm'>
 				<thead>
 					<tr>
-						<th style={{ width: "2rem" }}>#</th>
-						<th>Agenda Name</th>
+					<th style={{ width: "2rem" }}>#</th>
+						<th style={{ width: "400px" }}>Agenda Name</th>
+						<th style={{ width: "500px" }}>Description</th>
 						<th>Status</th>
 						<th>Deadline</th>
 						<th>Action</th>

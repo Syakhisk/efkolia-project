@@ -2,23 +2,33 @@ import React, { useState } from "react";
 import { Button, Form, Table, Accordion } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import CompletionStatus from "./CompletionStatus";
+import moment from "moment";
 
 function Tasks() {
 	const { currentUser } = useAuth();
 	const { tasks, classes } = currentUser;
-	const [selectedClass, setSelectedClass] = useState(classes[0].classCode);
+	const [selectedClassCode, setSelectedClassCode] = useState(
+		classes[0].classCode
+	);
+	const [selectedClass, setSelectedClass] = useState(classes[0]);
+
+	const handleClassChange = (e) => {
+		setSelectedClassCode(e.target.value);
+		setSelectedClass(classes.find((el) => el.classCode === e.target.value));
+	};
+
+	const getFullDayName = (short) => {
+		return moment(short, "ddd").format("dddd");
+	};
 
 	const renderedClass = classes.map((classItem, idx) => (
-		<option
-			key={idx}
-			className='h1'
-			value={classItem.classCode}>
+		<option key={idx} value={classItem.classCode}>
 			{classItem.className}
 		</option>
 	));
 
 	const renderedRow = tasks
-		.filter((e) => e.classCode === selectedClass)
+		.filter((e) => e.classCode === selectedClassCode)
 		.map((taskItem, idx) => (
 			<tr key={idx}>
 				<td>{idx + 1}</td>
@@ -45,7 +55,7 @@ function Tasks() {
 					<Form.Label className='m-0 p-0 mr-3'>Class:</Form.Label>
 					<Form.Control
 						className='bg-dark text-light'
-						onChange={(e) => setSelectedClass(e.target.value)}
+						onChange={(e) => handleClassChange(e)}
 						as='select'
 						size='sm'
 						custom>
@@ -56,7 +66,11 @@ function Tasks() {
 
 			<div className='mb-3 bg-dark py-3 px-3 rounded'>
 				<Accordion defaultActiveKey='0'>
-					<Accordion.Toggle eventKey='0' as={Button} variant="link" className="text-light p-0">
+					<Accordion.Toggle
+						eventKey='0'
+						as={Button}
+						variant='link'
+						className='text-light p-0'>
 						<p className='m-0 p-0'>Class Details</p>
 					</Accordion.Toggle>
 					<Accordion.Collapse eventKey='0'>
@@ -67,18 +81,14 @@ function Tasks() {
 							/>
 							<h6 className='mb-0 mt-3'>Class Name:</h6>
 							<h1 className='display-3 p-0' style={{ lineHeight: "4rem" }}>
-								{classes.find((el) => el.classCode === selectedClass).className}
+								{selectedClass.className}
 							</h1>
 							<h6 className='mb-0 mt-3'>Lecturer:</h6>
-							<h4>
-								{classes.find((el) => el.classCode === selectedClass).namaDosen}
-							</h4>
+							<h4>{selectedClass.namaDosen}</h4>
 							<h6 className='mb-0 mt-3'>Schedule:</h6>
-							<h4>
-								{JSON.stringify(
-									classes.find((el) => el.classCode === selectedClass).schedule
-								)}
-							</h4>
+							<h4>{`${getFullDayName(selectedClass.schedule.day)}, ${
+								selectedClass.schedule.timeStart
+							} - ${selectedClass.schedule.timeEnd}`}</h4>
 						</div>
 					</Accordion.Collapse>
 				</Accordion>
@@ -88,9 +98,9 @@ function Tasks() {
 				<thead>
 					<tr>
 						<th style={{ width: "2rem" }}>#</th>
-						<th>Task Name</th>
+						<th style={{ width: "400px" }}>Task Name</th>
+						<th style={{ width: "500px" }}>Description</th>
 						<th>Status</th>
-						<th>Description</th>
 						<th>Deadline</th>
 						<th>Action</th>
 					</tr>
