@@ -31,14 +31,14 @@ function Tasks(props) {
 		setModalShow(true);
 	};
 
-	const renderedModal = (
+	const renderedModal = modalShow ? (
 		<EntryModal
 			modalShow={modalShow}
 			setModalShow={setModalShow}
 			dataItem={modalData}
 			type='edit'
 		/>
-	);
+	) : null;
 
 	const handleClassChange = (e) => {
 		history.push(`/tasks/${e.target.value}`);

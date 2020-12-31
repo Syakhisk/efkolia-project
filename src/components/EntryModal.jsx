@@ -8,16 +8,15 @@ function EntryModal(props) {
 	const { modalShow, setModalShow, type = "add", dataItem = {} } = props;
 	const { currentUser, addEntry, updateEntry } = useAuth();
 
-	const [entryType, setEntryType] = useState("task");
-	const [selectedClass, setSelectedClass] = useState(
-		currentUser?.classes[0]?.classCode
-	);
-	const [entryName, setEntryName] = useState("");
-	// const [entryCode, setEntryCode] = useState("");
-	const [timeDeadline, setTimeDeadline] = useState("");
-	const [dateDeadline, setDateDeadline] = useState("");
-	const [status, setStatus] = useState(0);
-	const [description, setDescription] = useState("");
+	// const [entryType, setEntryType] = useState("task");
+	// const [selectedClass, setSelectedClass] = useState({});
+	// const [entryName, setEntryName] = useState("");
+	// const [timeDeadline, setTimeDeadline] = useState("");
+	// const [dateDeadline, setDateDeadline] = useState("");
+	// const [status, setStatus] = useState(0);
+	// const [description, setDescription] = useState("");
+
+	const [formData, setFormData] = useState({});
 
 	const [formatHelper, setFormatHelper] = useState(false);
 	const [error, setError] = useState("");
@@ -28,26 +27,47 @@ function EntryModal(props) {
 	useEffect(() => {
 		if (type === "edit") {
 			const deadline = dataItem.deadline?.split(" ");
-			setEntryName(dataItem.name);
-			setSelectedClass(dataItem.classCode);
-			if (entryType == "tasks") setSelectedClass(dataItem.classCode);
-			setDescription(dataItem.description);
-			setTimeDeadline(deadline ? deadline[1] : "");
-			setDateDeadline(deadline ? deadline[0] : "");
-			setStatus(Number(dataItem.status));
-			console.log("data:", dataItem);
-			console.log("classcode:", selectedClass);
+
+			const obj = {
+				entryType: dataItem.classCode ? "task" : "agenda",
+				entryName: dataItem.name,
+				selectedClass: dataItem.classCode,
+				description: dataItem.description,
+				dateDeadline: deadline ? deadline[0] : null,
+				timeDeadline: deadline ? deadline[1] : null,
+				status: dataItem.status,
+			};
+
+			setFormData({ ...formData, ...obj });
+			// const deadline = dataItem.deadline?.split(" ");
+			// setEntryName(dataItem.name);
+			// setSelectedClass(dataItem.classCode);
+			// if (entryType == "tasks") setSelectedClass(dataItem.classCode);
+			// setDescription(dataItem.description);
+			// setTimeDeadline(deadline ? deadline[1] : "");
+			// setDateDeadline(deadline ? deadline[0] : "");
+			// setStatus(Number(dataItem.status));
+			// console.log("data:", dataItem);
+			// console.log("classcode:", selectedClass);
 		}
+		console.log(formData);
 	}, [modalShow]);
 
 	const resetForm = () => {
-		// setModalShow(false);
-		setEntryType("task");
-		setEntryName("");
-		setDateDeadline("");
-		setTimeDeadline("");
-		setDescription("");
-		setStatus(0);
+		setFormData({
+			entryType: "task",
+			entryName: "",
+			dateDeadline: "",
+			timeDeadline: "",
+			description: "",
+			status: 0,
+		});
+		// setEntryType("task");
+		// setEntryName("");
+		// setDateDeadline("");
+		// setTimeDeadline("");
+		// setDescription("");
+		// setStatus(0);
 
 		setError("");
 	};
@@ -55,36 +75,41 @@ function EntryModal(props) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
-		const date = moment(dateDeadline, "DD-MM-YY");
-		const time = moment(timeDeadline, ["HH:mm", "H:mm"], true);
+		const date = moment(formData.dateDeadline, "DD-MM-YY");
+		const time = moment(formData.timeDeadline, ["HH:mm", "H:mm"], true);
 		if (!date.isValid() || !time.isValid()) setError("Invalid date or time");
 		else {
 			let data = {};
-			if (entryType == "task") {
+			if (formData.entryType == "task") {
 				data = {
-					name: entryName,
-					classCode: selectedClass,
-					deadline: `${date.format("DD/MM/YY")} ${timeDeadline}`,
-					description: description,
-					status: Number(status),
+					name: formData.entryName,
+					classCode: formData.selectedClass,
+					deadline: `${date.format("DD/MM/YY")} ${formData.timeDeadline}`,
+					description: formData.description,
+					status: Number(formData.status),
 				};
-			} else if (entryType == "agenda") {
+			} else if (formData.entryType == "agenda") {
 				data = {
-					name: entryName,
-					deadline: `${date.format("DD/MM/YY")} ${timeDeadline}`,
-					description: description,
-					status: Number(status),
+					name: formData.entryName,
+					deadline: `${date.format("DD/MM/YY")} ${formData.timeDeadline}`,
+					description: formData.description,
+					status: Number(formData.status),
 				};
 			}
 
 			try {
 				if (type == "add") {
-					const addedType = await addEntry(entryType, data);
+					const addedType = await addEntry(formData.entryType, data);
 					setDialog(`Added new ${addedType}: ${data.name}!`);
 				} else if (type == "edit") {
 					const oldData = dataItem;
-					const addedType = await updateEntry(entryType, data, oldData);
+					const addedType = await updateEntry(
+						formData.entryType,
+						data,
+						oldData
+					);
 					setDialog(`Edited ${addedType}: ${data.name}!`);
+					setModalShow(false);
 				}
 				resetForm();
 			} catch (er) {
@@ -104,9 +129,13 @@ function EntryModal(props) {
 					as='select'
 					size='sm'
 					custom
-					defaultValue={selectedClass}
-					onChange={(e) => setSelectedClass(e.target.value)}>
-					{!selectedClass ? (
+					// defaultValue={formData.selectedClass}
+					value={formData.selectedClass}
+					// onChange={(e) => setSelectedClass(e.target.value)}>
+					onChange={(e) =>
+						setFormData({ ...formData, selectedClass: e.target.value })
+					}>
+					{!formData.selectedClass ? (
 						<option value=''>You got no class :(</option>
 					) : null}
 					{currentUser?.classes.map((classItem, idx) => (
@@ -121,8 +150,11 @@ function EntryModal(props) {
 				<Form.Control
 					required
 					type='text'
-					value={entryName}
-					onChange={(e) => setEntryName(e.currentTarget.value)}
+					value={formData.entryName}
+					// onChange={(e) => setEntryName(e.currentTarget.value)}
+					onChange={(e) =>
+						setFormData({ ...formData, entryName: e.currentTarget.value })
+					}
 				/>
 			</Form.Row>
 		</>
@@ -135,8 +167,11 @@ function EntryModal(props) {
 				<Form.Control
 					required
 					type='text'
-					value={entryName}
-					onChange={(e) => setEntryName(e.currentTarget.value)}
+					value={formData.entryName}
+					// onChange={(e) => setEntryName(e.currentTarget.value)}
+					onChange={(e) =>
+						setFormData({ ...formData, entryName: e.currentTarget.value })
+					}
 				/>
 			</Form.Row>
 		</>
@@ -150,8 +185,10 @@ function EntryModal(props) {
 					as='select'
 					size='sm'
 					custom
-					onChange={(e) => setStatus(e.target.value)}
-					defaultValue={status}>
+					// onChange={(e) => setStatus(e.target.value)}
+					onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+					// defaultValue={formData.status}>
+					value={formData.status}>
 					<option value={0}>Not Started</option>
 					<option value={1}>On Going</option>
 					<option value={2}>Done</option>
@@ -180,19 +217,27 @@ function EntryModal(props) {
 							as='select'
 							size='sm'
 							custom
-							onChange={(e) => setEntryType(e.target.value)}
-							defaultValue={entryType}>
+							// onChange={(e) => setEntryType(e.target.value)}
+							onChange={(e) =>
+								setFormData({ ...formData, entryType: e.target.value })
+							}
+							defaultValue={formData.entryType}>
 							<option value='task'>Task</option>
 							<option value='agenda'>Agenda</option>
 						</Form.Control>
 					</Form.Row>
-					{entryType === "task" ? renderedTaskForm : renderedAgendaForm}
+					{formData.entryType === "task"
+						? renderedTaskForm
+						: renderedAgendaForm}
 					<Form.Row className='mb-2'>
 						<Form.Label>Description:</Form.Label>
 						<Form.Control
 							type='text'
-							value={description}
-							onChange={(e) => setDescription(e.currentTarget.value)}
+							value={formData.description}
+							// onChange={(e) => setDescription(e.currentTarget.value)}
+							onChange={(e) =>
+								setFormData({ ...formData, description: e.currentTarget.value })
+							}
 						/>
 					</Form.Row>
 					{type == "edit" ? renderedStatus : null}
@@ -203,8 +248,14 @@ function EntryModal(props) {
 								required
 								type='text'
 								placeholder='25/04/2020'
-								value={dateDeadline}
-								onChange={(e) => setDateDeadline(e.currentTarget.value)}
+								value={formData.dateDeadline}
+								// onChange={(e) => setDateDeadline(e.currentTarget.value)}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										dateDeadline: e.currentTarget.value,
+									})
+								}
 								onFocus={() => setFormatHelper(true)}
 								onBlur={() => setFormatHelper(false)}
 							/>
@@ -218,8 +269,14 @@ function EntryModal(props) {
 								required
 								type='text'
 								placeholder='13:15'
-								value={timeDeadline}
-								onChange={(e) => setTimeDeadline(e.currentTarget.value)}
+								value={formData.timeDeadline}
+								// onChange={(e) => setTimeDeadline(e.currentTarget.value)}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										timeDeadline: e.currentTarget.value,
+									})
+								}
 								onFocus={() => setFormatHelper(true)}
 								onBlur={() => setFormatHelper(false)}
 							/>

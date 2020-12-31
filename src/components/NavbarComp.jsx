@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import EntryModal from "./EntryModal";
+import { MdPerson } from "react-icons/md";
 
 function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	const history = useHistory();
@@ -25,10 +26,6 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	) : (
 		""
 	);
-
-	// const renderedModal = (
-	// 	<EntryModal modalShow={modalShow} setModalShow={setModalShow} />
-	// );
 
 	return (
 		<>
@@ -56,23 +53,15 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 						</Nav>
 						<Nav>
 							<div className='vl d-none d-md-block' />
-							<Dropdown drop='down'>
+							<Dropdown drop='down' className='d-flex jcc aic'>
 								<Dropdown.Toggle
 									as='div'
-									className='btn w-100 my-md-0 my-sm-2 py-2'>
-									<img
-										alt='avatar'
-										src='https://i.pravatar.cc/100'
-										className='rounded-circle'
-										style={{
-											maxWidth: "30px",
-											width: "100%",
-											height: "100%",
-											objectFit: "cover",
-										}}
-									/>
+									className='btn w-100 my-md-0 my-sm-2 py-0'>
+									<div className='d-flex vh-center nav-icon'>
+										<MdPerson />
+									</div>
 								</Dropdown.Toggle>
-								<Dropdown.Menu className='bg-success'>
+								<Dropdown.Menu>
 									<Dropdown.Item
 										className='text-light'
 										onClick={() => history.push("/user-profile")}>

@@ -151,7 +151,9 @@ function Dashboard(props) {
 										<div className='truncate' style={{ maxWidth: "300px" }}>
 											{`${unfinishedTasks.map((o) => o.name)}`}
 										</div>
-									) : "Horray, no tasks!"}
+									) : (
+										"Horray, no tasks!"
+									)}
 								</p>
 								<div className='bottom-right'>
 									<Button
@@ -173,7 +175,9 @@ function Dashboard(props) {
 										<div className='truncate' style={{ maxWidth: "300px" }}>
 											{`${unfinishedAgendas.map((o) => o.name)}`}
 										</div>
-									) : "Horray, no agenda!"}
+									) : (
+										"Horray, no agenda!"
+									)}
 								</p>
 								<div className='bottom-right'>
 									<Button

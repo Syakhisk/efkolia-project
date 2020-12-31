@@ -119,10 +119,9 @@ Carousel
 	transition: all 0.2s;
 }
 
-.caro-item:hover{
+.caro-item:hover {
 	background-color: rgba($green, 0.3);
 	cursor: pointer;
-	
 }
 
 .alice-carousel__dots {
@@ -201,3 +200,13 @@ Carousel
 	transform: scale(105%);
 }
 
+.nav-icon {
+	width: 35px;
+	height: 35px;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 100%;
+}
+
+.nav-icon:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}

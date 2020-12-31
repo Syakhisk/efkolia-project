@@ -28,9 +28,16 @@ export function AuthProvider({ children }) {
 	}
 
 	// eslint-disable-next-line
-	function changeEmail(newEmail) {}
+	async function changeEmail(email, password, newEmail) {
+		await auth.signInWithEmailAndPassword(email, password);
+		const userAuth = auth.currentUser;
+		const user = db.collection("users").doc(currentUser.docId);
+		const authRespond = await userAuth.updateEmail(newEmail);
+		await user.update({ _email: newEmail });
+	}
 
-	async function changePassword(newPassword) {
+	async function changePassword(email, password, newPassword) {
+		await auth.signInWithEmailAndPassword(email, password);
 		const user = auth.currentUser;
 		await user.updatePassword(newPassword);
 	}
@@ -65,6 +72,11 @@ export function AuthProvider({ children }) {
 		return type;
 	}
 
+	async function editProfile(firstName, lastName) {
+		const user = db.collection("users").doc(currentUser.docId);
+		await user.update({ _firstName: firstName, _lastName: lastName });
+	}
+
 	async function addClass(data) {
 		const user = db.collection("users").doc(currentUser.docId);
 		await user.update({ classes: FieldValue.arrayUnion(data) });
@@ -77,11 +89,7 @@ export function AuthProvider({ children }) {
 
 	async function getClassData(classCode) {
 		const user = await db.collection("users").doc(currentUser.docId).get();
-		// const classNames = await user.where(
-		// 	"classCode",
-		// 	"array-contains",
-		// 	classCode
-		// ).get()
+
 		const data = user.data();
 		const filteredArray = data.classes.find((el) => el.classCode === classCode);
 
@@ -142,7 +150,9 @@ export function AuthProvider({ children }) {
 		getClassData,
 		getUserClasses,
 		signup,
+		editProfile,
 		changePassword,
+		changeEmail,
 		login,
 		logout,
 		addEntry,
