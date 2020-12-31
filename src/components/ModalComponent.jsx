@@ -2,7 +2,6 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 function ModalComponent(props) {
-	const { header = "" } = props;
 	return (
 		<Modal
 			{...props}

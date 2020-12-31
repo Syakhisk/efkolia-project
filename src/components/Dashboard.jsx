@@ -14,7 +14,7 @@ import useUpcomingClass from "../hooks/useUpcomingClass";
 
 function Dashboard(props) {
 	const size = useWindowSize();
-	const { currentUser, logout } = useAuth();
+	const { currentUser } = useAuth();
 	const [greeting, setGreeting] = useState("Hello");
 	const contentRef = useRef(0);
 	const history = useHistory();
@@ -29,7 +29,7 @@ function Dashboard(props) {
 	const calculatedHeight = isNaN(size.height) ? 0 : size.height;
 
 	const [scrollPos, setScrollPos] = useState(0);
-	const [scrolling, setScrolling] = useState(false);
+	const [, setScrolling] = useState(false);
 	const upcomingClass = useUpcomingClass(currentUser.classes);
 
 	const headerStyling = {
@@ -80,17 +80,6 @@ function Dashboard(props) {
 			},
 			isNotOnTop ? 600 : 0
 		);
-	};
-
-	const handleLogout = async () => {
-		setError("");
-		try {
-			await logout();
-			history.push("/landing");
-		} catch (err) {
-			setError("Failed to log out");
-			console.log(err);
-		}
 	};
 
 	const unfinishedTasks = userUpdated.tasks.filter((task) => task.status !== 3);

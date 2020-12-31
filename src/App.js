@@ -91,7 +91,7 @@ function App() {
 						handleToggleSidebar={handleToggleSidebar}
 						toggled={toggled}
 					/>
-					<main>{renderedRouting}</main>
+					<main style={{overflowX: "auto"}}>{renderedRouting}</main>
 				</div>
 			</div>
 		</AuthProvider>

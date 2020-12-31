@@ -1,4 +1,3 @@
-import { useEfect } from "react";
 import moment from "moment";
 
 const getClosestClass = (classesList) => {

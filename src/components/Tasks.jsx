@@ -3,7 +3,7 @@ import { Button, Form, Table, Accordion } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import CompletionStatus from "./CompletionStatus";
 import moment from "moment";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import EntryModal from "./EntryModal";
 
 function Tasks(props) {

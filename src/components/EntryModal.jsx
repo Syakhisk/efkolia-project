@@ -8,26 +8,15 @@ function EntryModal(props) {
 	const { modalShow, setModalShow, type = "add", dataItem = {} } = props;
 	const { currentUser, addEntry, updateEntry } = useAuth();
 
-	// const [entryType, setEntryType] = useState("task");
-	// const [selectedClass, setSelectedClass] = useState({});
-	// const [entryName, setEntryName] = useState("");
-	// const [timeDeadline, setTimeDeadline] = useState("");
-	// const [dateDeadline, setDateDeadline] = useState("");
-	// const [status, setStatus] = useState(0);
-	// const [description, setDescription] = useState("");
-
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState({ entryType: "task", status: 0 });
 
 	const [formatHelper, setFormatHelper] = useState(false);
 	const [error, setError] = useState("");
 	const [dialog, setDialog] = useState("");
 
-	// console.log("0", status)
-
 	useEffect(() => {
 		if (type === "edit") {
 			const deadline = dataItem.deadline?.split(" ");
-
 			const obj = {
 				entryType: dataItem.classCode ? "task" : "agenda",
 				entryName: dataItem.name,
@@ -39,18 +28,7 @@ function EntryModal(props) {
 			};
 
 			setFormData({ ...formData, ...obj });
-			// const deadline = dataItem.deadline?.split(" ");
-			// setEntryName(dataItem.name);
-			// setSelectedClass(dataItem.classCode);
-			// if (entryType == "tasks") setSelectedClass(dataItem.classCode);
-			// setDescription(dataItem.description);
-			// setTimeDeadline(deadline ? deadline[1] : "");
-			// setDateDeadline(deadline ? deadline[0] : "");
-			// setStatus(Number(dataItem.status));
-			// console.log("data:", dataItem);
-			// console.log("classcode:", selectedClass);
 		}
-		console.log(formData);
 	}, [modalShow]);
 
 	const resetForm = () => {
@@ -62,12 +40,6 @@ function EntryModal(props) {
 			description: "",
 			status: 0,
 		});
-		// setEntryType("task");
-		// setEntryName("");
-		// setDateDeadline("");
-		// setTimeDeadline("");
-		// setDescription("");
-		// setStatus(0);
 
 		setError("");
 	};
@@ -80,7 +52,7 @@ function EntryModal(props) {
 		if (!date.isValid() || !time.isValid()) setError("Invalid date or time");
 		else {
 			let data = {};
-			if (formData.entryType == "task") {
+			if (formData.entryType === "task") {
 				data = {
 					name: formData.entryName,
 					classCode: formData.selectedClass,
@@ -88,7 +60,7 @@ function EntryModal(props) {
 					description: formData.description,
 					status: Number(formData.status),
 				};
-			} else if (formData.entryType == "agenda") {
+			} else if (formData.entryType === "agenda") {
 				data = {
 					name: formData.entryName,
 					deadline: `${date.format("DD/MM/YY")} ${formData.timeDeadline}`,
@@ -98,10 +70,10 @@ function EntryModal(props) {
 			}
 
 			try {
-				if (type == "add") {
+				if (type === "add") {
 					const addedType = await addEntry(formData.entryType, data);
 					setDialog(`Added new ${addedType}: ${data.name}!`);
-				} else if (type == "edit") {
+				} else if (type === "edit") {
 					const oldData = dataItem;
 					const addedType = await updateEntry(
 						formData.entryType,
@@ -110,6 +82,8 @@ function EntryModal(props) {
 					);
 					setDialog(`Edited ${addedType}: ${data.name}!`);
 					setModalShow(false);
+					if (window.location.pathname !== "/dashboard")
+						window.location.reload();
 				}
 				resetForm();
 			} catch (er) {
@@ -136,7 +110,7 @@ function EntryModal(props) {
 						setFormData({ ...formData, selectedClass: e.target.value })
 					}>
 					{!formData.selectedClass ? (
-						<option value=''>You got no class :(</option>
+						<option value=''>Select a class!</option>
 					) : null}
 					{currentUser?.classes.map((classItem, idx) => (
 						<option key={idx} value={classItem.classCode}>
@@ -187,7 +161,7 @@ function EntryModal(props) {
 					custom
 					// onChange={(e) => setStatus(e.target.value)}
 					onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-					// defaultValue={formData.status}>
+					defaultValue={0}
 					value={formData.status}>
 					<option value={0}>Not Started</option>
 					<option value={1}>On Going</option>
@@ -206,7 +180,7 @@ function EntryModal(props) {
 					setDialog("");
 					setModalShow(false);
 				}}
-				header={type == "edit" ? "Edit Entry" : "Add New Entry"}
+				header={type === "edit" ? "Edit Entry" : "Add New Entry"}
 				dialogClassName='modal-dialog'>
 				{!error ? null : <Alert variant='danger'>{error}</Alert>}
 				{!dialog ? null : <Alert variant='success'>{dialog}</Alert>}
@@ -217,11 +191,10 @@ function EntryModal(props) {
 							as='select'
 							size='sm'
 							custom
-							// onChange={(e) => setEntryType(e.target.value)}
+							value={formData.entryType}
 							onChange={(e) =>
 								setFormData({ ...formData, entryType: e.target.value })
-							}
-							defaultValue={formData.entryType}>
+							}>
 							<option value='task'>Task</option>
 							<option value='agenda'>Agenda</option>
 						</Form.Control>
@@ -229,6 +202,7 @@ function EntryModal(props) {
 					{formData.entryType === "task"
 						? renderedTaskForm
 						: renderedAgendaForm}
+
 					<Form.Row className='mb-2'>
 						<Form.Label>Description:</Form.Label>
 						<Form.Control
@@ -240,7 +214,7 @@ function EntryModal(props) {
 							}
 						/>
 					</Form.Row>
-					{type == "edit" ? renderedStatus : null}
+					{type === "edit" ? renderedStatus : null}
 					<Form.Row className='mb-2'>
 						<Col className='p-0 mr-3'>
 							<Form.Label>Deadline Date:</Form.Label>
@@ -291,7 +265,7 @@ function EntryModal(props) {
 							type='submit'
 							variant='outline-secondary'
 							className='mr-3 px-3'>
-							{type == "edit" ? "Apply Edit" : "Add"}
+							{type === "edit" ? "Apply Edit" : "Add"}
 						</Button>
 						<Button
 							variant='outline-danger'

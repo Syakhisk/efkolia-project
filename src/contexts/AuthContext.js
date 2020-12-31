@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
 		await auth.signInWithEmailAndPassword(email, password);
 		const userAuth = auth.currentUser;
 		const user = db.collection("users").doc(currentUser.docId);
-		const authRespond = await userAuth.updateEmail(newEmail);
+		await userAuth.updateEmail(newEmail);
 		await user.update({ _email: newEmail });
 	}
 
@@ -97,7 +97,7 @@ export function AuthProvider({ children }) {
 	}
 
 	async function getUserClasses() {
-		const user = await db
+		await db
 			.collection("users")
 			.doc(currentUser.docId)
 			.collection("classes")
@@ -136,7 +136,7 @@ export function AuthProvider({ children }) {
 				.onSnapshot((querySnapshot) => {
 					querySnapshot.docChanges().forEach((change) => {
 						if (change.type === "modified") {
-							console.log("changes:", change.doc.data());
+							// console.log("changes:", change.doc.data());
 							setCurrentUser({ ...currentUser, ...change.doc.data() });
 						}
 					});

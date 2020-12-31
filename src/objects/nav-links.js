@@ -3,7 +3,6 @@ import {
 	MdGridOn,
 	MdModeEdit,
 	MdLocalLibrary,
-	MdPlayCircleFilled,
 } from "react-icons/md";
 
 import { GoNote } from "react-icons/go";

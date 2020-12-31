@@ -9,14 +9,23 @@ function Timetable() {
 	const { currentUser } = useAuth();
 	const { classes } = currentUser;
 	const history = useHistory();
+	const timeStart = (a, b) => {
+		if (a.schedule.timeStart < b.schedule.timeStart) {
+			return -1;
+		}
+		if (a.schedule.timeStart > b.schedule.timeStart) {
+			return 1;
+		}
+		return 0;
+	};
 	const classByDay = {
-		mon: classes.filter((classItem) => classItem.schedule.day === "mon"),
-		tue: classes.filter((classItem) => classItem.schedule.day === "tue"),
-		wed: classes.filter((classItem) => classItem.schedule.day === "wed"),
-		thu: classes.filter((classItem) => classItem.schedule.day === "thu"),
-		fri: classes.filter((classItem) => classItem.schedule.day === "fri"),
-		sat: classes.filter((classItem) => classItem.schedule.day === "sat"),
-		sun: classes.filter((classItem) => classItem.schedule.day === "sun"),
+		mon: classes.filter((item) => item.schedule.day === "mon").sort(timeStart),
+		tue: classes.filter((item) => item.schedule.day === "tue").sort(timeStart),
+		wed: classes.filter((item) => item.schedule.day === "wed").sort(timeStart),
+		thu: classes.filter((item) => item.schedule.day === "thu").sort(timeStart),
+		fri: classes.filter((item) => item.schedule.day === "fri").sort(timeStart),
+		sat: classes.filter((item) => item.schedule.day === "sat").sort(timeStart),
+		sun: classes.filter((item) => item.schedule.day === "sun").sort(timeStart),
 	};
 
 	const handleGoToSubjects = (e) => {

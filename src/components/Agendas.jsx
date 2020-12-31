@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import CompletionStatus from "./CompletionStatus";
+import EntryModal from "./EntryModal";
 
-function Agendas() {
+function Agendas(props) {
+	const {
+		match: { params },
+	} = props;
+	const history = useHistory();
 	const { currentUser } = useAuth();
 	const { agendas } = currentUser;
+	const [modalShow, setModalShow] = useState(false);
+	const [modalData, setModalData] = useState({});
+
+	const handleEdit = (item) => {
+		setModalData(item);
+		setModalShow(true);
+	};
+
+	const renderedModal = modalShow ? (
+		<EntryModal
+			modalShow={modalShow}
+			setModalShow={setModalShow}
+			dataItem={modalData}
+			type='edit'
+		/>
+	) : null;
+
 	const renderedRow = agendas.map((agendaItem, idx) => (
 		<tr key={idx}>
 			<td>{idx + 1}</td>
@@ -18,7 +41,10 @@ function Agendas() {
 			</td>
 			<td>{agendaItem.deadline}</td>
 			<td>
-				<Button variant='outline-secondary' block>
+				<Button
+					variant='outline-secondary'
+					onClick={() => handleEdit(agendaItem)}
+					block>
 					Edit
 				</Button>
 			</td>
@@ -45,6 +71,7 @@ function Agendas() {
 				</thead>
 				<tbody>{renderedRow}</tbody>
 			</Table>
+			{renderedModal}
 		</div>
 	);
 }

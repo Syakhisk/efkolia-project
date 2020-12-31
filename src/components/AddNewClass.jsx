@@ -6,7 +6,7 @@ import moment from "moment";
 
 function AddNewClass(props) {
 	const { modalShow, setModalShow } = props;
-	const { currentUser, addClass } = useAuth();
+	const { addClass } = useAuth();
 	const [entryName, setEntryName] = useState("");
 	const [lecturerName, setLecturerName] = useState("");
 	const [timeEnd, setTimeEnd] = useState("");
@@ -113,6 +113,7 @@ function AddNewClass(props) {
 							"Monday",
 							"Tuesday",
 							"Wednesday",
+							"Thursday",
 							"Friday",
 							"Saturday",
 							"Sunday",

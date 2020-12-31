@@ -210,3 +210,21 @@ Carousel
 .nav-icon:hover {
 	background-color: rgba(255, 255, 255, 0.3);
 }
+
+.pro-sidebar {
+	z-index: 1030;
+}
+
+::-webkit-scrollbar-track {
+	background: #303030;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

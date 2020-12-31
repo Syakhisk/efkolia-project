@@ -2,10 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Card, Row, Col, Form, Button } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import Modal from "./ModalComponent";
-import { useHistory } from "react-router-dom";
 
 function Profile() {
-	const history = useHistory();
 	const { currentUser, changePassword, changeEmail, editProfile } = useAuth();
 	const [firstName, setFirstName] = useState(currentUser._firstName);
 	const [lastName, setLastName] = useState(currentUser._lastName);
@@ -23,16 +21,6 @@ function Profile() {
 	const confirmNewPasswordRef = useRef("");
 
 	useEffect(() => {
-		// if (
-		// 	lastName == currentUser._lastName ||
-		// 	firstName == currentUser._firstName
-		// ) {
-		// 	setButtonShow(true);
-		// } else {
-		// 	setButtonShow(false);
-		// }
-
-		// console.log(buttonShow);
 		if (
 			lastName !== currentUser._lastName ||
 			firstName !== currentUser._firstName

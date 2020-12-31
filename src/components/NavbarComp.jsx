@@ -41,7 +41,7 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 						aria-controls='basic-navbar-nav'
 						onClick={() => handleToggleSidebar(false)}>
 						<span className='btn navbar-toggler-icon' />
-					</Navbar.Toggle>
+					</Navbar.Toggle> 
 
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ml-auto d-flex justify-content-center'>
@@ -53,10 +53,10 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 						</Nav>
 						<Nav>
 							<div className='vl d-none d-md-block' />
-							<Dropdown drop='down' className='d-flex jcc aic'>
+							<Dropdown drop='down' className='d-flex flex-column jcc aic'>
 								<Dropdown.Toggle
 									as='div'
-									className='btn w-100 my-md-0 my-sm-2 py-0'>
+									className='btn w-100 my-md-0 my-2 py-0 d-flex vh-center'>
 									<div className='d-flex vh-center nav-icon'>
 										<MdPerson />
 									</div>

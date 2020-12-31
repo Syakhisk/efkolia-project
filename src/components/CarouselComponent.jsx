@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
-import { Button, ButtonGroup, Col, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CompletionStatus from "./CompletionStatus";
 import EntryModal from "./EntryModal";
