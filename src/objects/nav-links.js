@@ -14,7 +14,7 @@ const links = [
 	{ link: "/agendas", text: "Agendas", icon: <GoNote /> },
 	{ link: "/subjects", text: "Subjects", icon: <MdLocalLibrary /> },
 	{ link: "/timetable", text: "Timetable", icon: <MdGridOn /> },
-	{ link: "/playlists", text: "Playlists", icon: <MdPlayCircleFilled /> },
+	// { link: "/playlists", text: "Playlists", icon: <MdPlayCircleFilled /> },
 ];
 
 export default links;

@@ -49,6 +49,7 @@ function App() {
 				component={Dashboard}
 				scrollingRef={contentRef}
 			/>
+			<PrivateRoute path='/tasks/:classCode' component={Tasks} />
 			<PrivateRoute path='/tasks' component={Tasks} />
 			<PrivateRoute path='/agendas' component={Agendas} />
 			<PrivateRoute path='/subjects' component={Subjects} />

@@ -53,6 +53,28 @@ export function AuthProvider({ children }) {
 		return type;
 	}
 
+	async function updateEntry(type, newData, oldData) {
+		const user = db.collection("users").doc(currentUser.docId);
+		if (type === "task") {
+			await user.update({ tasks: FieldValue.arrayRemove(oldData) });
+			await user.update({ tasks: FieldValue.arrayUnion(newData) });
+		} else if (type === "agenda") {
+			await user.update({ agendas: FieldValue.arrayRemove(oldData) });
+			await user.update({ agendas: FieldValue.arrayUnion(newData) });
+		}
+		return type;
+	}
+
+	async function addClass(data) {
+		const user = db.collection("users").doc(currentUser.docId);
+		await user.update({ classes: FieldValue.arrayUnion(data) });
+	}
+
+	async function removeClass(data) {
+		const user = db.collection("users").doc(currentUser.docId);
+		await user.update({ classes: FieldValue.arrayRemove(data) });
+	}
+
 	async function getClassData(classCode) {
 		const user = await db.collection("users").doc(currentUser.docId).get();
 		// const classNames = await user.where(
@@ -67,9 +89,13 @@ export function AuthProvider({ children }) {
 	}
 
 	async function getUserClasses() {
-		const user = await db.collection("users").doc(currentUser.docId).collection("classes").get();
+		const user = await db
+			.collection("users")
+			.doc(currentUser.docId)
+			.collection("classes")
+			.get();
 	}
-	
+
 	useEffect(() => {
 		const getRecord = async (email) => {
 			const collection = db.collection("users");
@@ -120,6 +146,9 @@ export function AuthProvider({ children }) {
 		login,
 		logout,
 		addEntry,
+		updateEntry,
+		addClass,
+		removeClass,
 	};
 
 	return (

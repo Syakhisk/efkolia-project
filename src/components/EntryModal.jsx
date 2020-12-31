@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Col, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import ModalComponent from "./ModalComponent";
 import moment from "moment";
 
-function AddNewEntry(props) {
-	const { modalShow, setModalShow } = props;
-	const { currentUser, addEntry } = useAuth();
+function EntryModal(props) {
+	const { modalShow, setModalShow, type = "add", dataItem = {} } = props;
+	const { currentUser, addEntry, updateEntry } = useAuth();
 
 	const [entryType, setEntryType] = useState("task");
 	const [selectedClass, setSelectedClass] = useState(
@@ -16,12 +16,29 @@ function AddNewEntry(props) {
 	// const [entryCode, setEntryCode] = useState("");
 	const [timeDeadline, setTimeDeadline] = useState("");
 	const [dateDeadline, setDateDeadline] = useState("");
-	const [reminder, setReminder] = useState([]);
+	const [status, setStatus] = useState(0);
 	const [description, setDescription] = useState("");
-	const [formatHelper, setFormatHelper] = useState(false);
 
+	const [formatHelper, setFormatHelper] = useState(false);
 	const [error, setError] = useState("");
 	const [dialog, setDialog] = useState("");
+
+	// console.log("0", status)
+
+	useEffect(() => {
+		if (type === "edit") {
+			const deadline = dataItem.deadline?.split(" ");
+			setEntryName(dataItem.name);
+			setSelectedClass(dataItem.classCode);
+			if (entryType == "tasks") setSelectedClass(dataItem.classCode);
+			setDescription(dataItem.description);
+			setTimeDeadline(deadline ? deadline[1] : "");
+			setDateDeadline(deadline ? deadline[0] : "");
+			setStatus(Number(dataItem.status));
+			console.log("data:", dataItem);
+			console.log("classcode:", selectedClass);
+		}
+	}, [modalShow]);
 
 	const resetForm = () => {
 		// setModalShow(false);
@@ -30,7 +47,7 @@ function AddNewEntry(props) {
 		setDateDeadline("");
 		setTimeDeadline("");
 		setDescription("");
-		setReminder("");
+		setStatus(0);
 
 		setError("");
 	};
@@ -38,24 +55,41 @@ function AddNewEntry(props) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
-		const date = moment(dateDeadline, "dd/mm/yy");
+		const date = moment(dateDeadline, "DD-MM-YY");
 		const time = moment(timeDeadline, ["HH:mm", "H:mm"], true);
 		if (!date.isValid() || !time.isValid()) setError("Invalid date or time");
 		else {
-			const data = {
-				name: entryName,
-				classCode: selectedClass,
-				deadline: `${dateDeadline} ${timeDeadline}`,
-				description: description,
-				status: 0,
-			};
+			let data = {};
+			if (entryType == "task") {
+				data = {
+					name: entryName,
+					classCode: selectedClass,
+					deadline: `${date.format("DD/MM/YY")} ${timeDeadline}`,
+					description: description,
+					status: Number(status),
+				};
+			} else if (entryType == "agenda") {
+				data = {
+					name: entryName,
+					deadline: `${date.format("DD/MM/YY")} ${timeDeadline}`,
+					description: description,
+					status: Number(status),
+				};
+			}
 
 			try {
-				const addedType = await addEntry(entryType, data);
-				setDialog(`Added new ${addedType}: ${data.name}!`);
+				if (type == "add") {
+					const addedType = await addEntry(entryType, data);
+					setDialog(`Added new ${addedType}: ${data.name}!`);
+				} else if (type == "edit") {
+					const oldData = dataItem;
+					const addedType = await updateEntry(entryType, data, oldData);
+					setDialog(`Edited ${addedType}: ${data.name}!`);
+				}
 				resetForm();
 			} catch (er) {
 				console.log(er);
+				console.log(data);
 				setError(`Failed to add task/agenda`);
 			}
 		}
@@ -70,6 +104,7 @@ function AddNewEntry(props) {
 					as='select'
 					size='sm'
 					custom
+					defaultValue={selectedClass}
 					onChange={(e) => setSelectedClass(e.target.value)}>
 					{!selectedClass ? (
 						<option value=''>You got no class :(</option>
@@ -107,6 +142,24 @@ function AddNewEntry(props) {
 		</>
 	);
 
+	const renderedStatus = (
+		<>
+			<Form.Row className='mb-2'>
+				<Form.Label>Status:</Form.Label>
+				<Form.Control
+					as='select'
+					size='sm'
+					custom
+					onChange={(e) => setStatus(e.target.value)}
+					defaultValue={status}>
+					<option value={0}>Not Started</option>
+					<option value={1}>On Going</option>
+					<option value={2}>Done</option>
+				</Form.Control>
+			</Form.Row>
+		</>
+	);
+
 	return (
 		<>
 			<ModalComponent
@@ -116,7 +169,7 @@ function AddNewEntry(props) {
 					setDialog("");
 					setModalShow(false);
 				}}
-				header='Add New Entry'
+				header={type == "edit" ? "Edit Entry" : "Add New Entry"}
 				dialogClassName='modal-dialog'>
 				{!error ? null : <Alert variant='danger'>{error}</Alert>}
 				{!dialog ? null : <Alert variant='success'>{dialog}</Alert>}
@@ -127,7 +180,8 @@ function AddNewEntry(props) {
 							as='select'
 							size='sm'
 							custom
-							onChange={(e) => setEntryType(e.target.value)}>
+							onChange={(e) => setEntryType(e.target.value)}
+							defaultValue={entryType}>
 							<option value='task'>Task</option>
 							<option value='agenda'>Agenda</option>
 						</Form.Control>
@@ -141,14 +195,7 @@ function AddNewEntry(props) {
 							onChange={(e) => setDescription(e.currentTarget.value)}
 						/>
 					</Form.Row>
-					<Form.Row className='mb-2'>
-						<Form.Label>Reminder:</Form.Label>
-						<Form.Control
-							type='text'
-							value={reminder}
-							onChange={(e) => setReminder(e.currentTarget.value)}
-						/>
-					</Form.Row>
+					{type == "edit" ? renderedStatus : null}
 					<Form.Row className='mb-2'>
 						<Col className='p-0 mr-3'>
 							<Form.Label>Deadline Date:</Form.Label>
@@ -187,7 +234,7 @@ function AddNewEntry(props) {
 							type='submit'
 							variant='outline-secondary'
 							className='mr-3 px-3'>
-							Add
+							{type == "edit" ? "Apply Edit" : "Add"}
 						</Button>
 						<Button
 							variant='outline-danger'
@@ -206,4 +253,4 @@ function AddNewEntry(props) {
 	);
 }
 
-export default AddNewEntry;
+export default EntryModal;

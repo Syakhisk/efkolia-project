@@ -23,7 +23,7 @@ function Signup() {
 			setError("");
 			setLoading(true);
 			await login(emailRef.current.value, passwordRef.current.value);
-			history.push("/dashboard");
+			// history.push("/dashboard");
 		} catch (err) {
 			setError("Failed to login");
 		}

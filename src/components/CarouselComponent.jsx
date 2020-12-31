@@ -4,10 +4,19 @@ import AliceCarousel from "react-alice-carousel";
 import { Button, ButtonGroup, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CompletionStatus from "./CompletionStatus";
+import EntryModal from "./EntryModal";
 
 function CarouselComponent(props) {
 	const { items, title, classes } = props;
 	const [carousel, setCarousel] = useState(null);
+
+	const [modalShow, setModalShow] = useState(false);
+	const [modalData, setModalData] = useState({});
+
+	const handleEdit = (item) => {
+		setModalData(item);
+		setModalShow(true);
+	};
 
 	const responsive = {
 		0: { items: 1 },
@@ -17,7 +26,10 @@ function CarouselComponent(props) {
 	};
 
 	const renderedItems = items.map((item, idx) => (
-		<div key={idx} className='caro-item p-3 mx-2 rounded'>
+		<div
+			key={idx}
+			className='caro-item p-3 mx-2 rounded'
+			onClick={() => handleEdit(item)}>
 			{title === "tasks" ? (
 				<small
 					className='font-weight-bold truncate'
@@ -44,7 +56,7 @@ function CarouselComponent(props) {
 		<>
 			<div className='caro-container rounded p-3'>
 				<div className='d-flex justify-content-center align-items-center'>
-					<Col sm={5} md={7} className='px-0 d-flex'>
+					<Col className='px-0 d-flex w-100'>
 						<ButtonGroup className='pt-0 pb-3 h-100'>
 							<Button
 								variant='outline-success'
@@ -65,24 +77,6 @@ function CarouselComponent(props) {
 							<Link to={`/${title}`}>{title}</Link>
 						</h4>
 					</Col>
-					<Form className='col-7 col-md-5 px-0'>
-						<Form.Group className='d-flex'>
-							<Form.Label
-								className='d-inline my-0 pr-2'
-								style={{ minWidth: "70px" }}>
-								Sort By:
-							</Form.Label>
-							<Form.Control
-								className='d-inline border border-success bg-dark text-light'
-								as='select'
-								size='sm'
-								custom>
-								<option>Date Added</option>
-								<option>Deadline</option>
-								<option>Status</option>
-							</Form.Control>
-						</Form.Group>
-					</Form>
 				</div>
 				{items.length ? (
 					<AliceCarousel
@@ -103,6 +97,12 @@ function CarouselComponent(props) {
 					</div>
 				)}
 			</div>
+			<EntryModal
+				modalShow={modalShow}
+				setModalShow={setModalShow}
+				dataItem={modalData}
+				type='edit'
+			/>
 		</>
 	);
 }

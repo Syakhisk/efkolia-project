@@ -6,7 +6,7 @@ import { BiPlus } from "react-icons/bi";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import AddNewEntry from "./AddNewEntry";
+import EntryModal from "./EntryModal";
 
 function NavbarComp({ handleToggleSidebar, toggled, location }) {
 	const history = useHistory();
@@ -19,6 +19,16 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 		setClock(moment().format("hh:mm:ss"));
 		setDate(moment().format("dddd, MMMM Do YYYY"));
 	}, 1000);
+
+	const renderedModal = modalShow ? (
+		<EntryModal modalShow={modalShow} setModalShow={setModalShow} />
+	) : (
+		""
+	);
+
+	// const renderedModal = (
+	// 	<EntryModal modalShow={modalShow} setModalShow={setModalShow} />
+	// );
 
 	return (
 		<>
@@ -88,8 +98,7 @@ function NavbarComp({ handleToggleSidebar, toggled, location }) {
 					</Navbar.Collapse>
 				</Navbar>
 			</div>
-
-			<AddNewEntry modalShow={modalShow} setModalShow={setModalShow} />
+			{renderedModal}
 		</>
 	);
 }

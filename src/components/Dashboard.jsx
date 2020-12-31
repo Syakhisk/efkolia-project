@@ -30,10 +30,7 @@ function Dashboard(props) {
 
 	const [scrollPos, setScrollPos] = useState(0);
 	const [scrolling, setScrolling] = useState(false);
-
 	const upcomingClass = useUpcomingClass(currentUser.classes);
-
-	// console.log(Object.keys(upcomingClass));
 
 	const headerStyling = {
 		background: "#a3a3a3",
@@ -123,50 +120,67 @@ function Dashboard(props) {
 
 						<h3 className={`${!fullHeight ? "hideDetails" : ""}`}>You have:</h3>
 						<Row className={`mb-5 ${!fullHeight ? "hideDetails" : ""}`}>
-							<Col sm className='d-flex flex-column'>
-								{Object.keys(upcomingClass).length ? (
-									<>
-										<h1>{`Class at ${upcomingClass.schedule.timeStart}, Today`}</h1>
-										<p className='truncate'>{upcomingClass.className}</p>
-										<div className='bottom-right'>
-											<Button className='btn-primary btn-sm'>
-												Go to Timetables
-											</Button>
-										</div>
-									</>
-								) : (
-									<h3>No upcoming class for today, Horray!</h3>
-								)}
+							<Col sm className='d-flex flex-column my-1'>
+								<>
+									{upcomingClass && Object.keys(upcomingClass).length ? (
+										<>
+											<h1>{`Class at ${upcomingClass.schedule.timeStart}, Today`}</h1>
+											<p className='truncate'>{upcomingClass.className}</p>
+										</>
+									) : (
+										<h3>No upcoming class for today, Horray!</h3>
+									)}
+									<div className='bottom-right d-flex flex-row'>
+										<Button
+											onClick={() => history.push("/timetable")}
+											className='btn-primary btn-sm mr-3'>
+											Go to Timetables
+										</Button>
+										<Button
+											onClick={() => history.push("/subjects")}
+											className='btn-primary btn-sm'>
+											Go to Subjects
+										</Button>
+									</div>
+								</>
 							</Col>
-							<Col sm className='d-flex flex-column'>
+							<Col sm className='d-flex flex-column my-1'>
 								<h1>{`${unfinishedTasks.length} Task(s)`}</h1>
 								<p className='truncate'>
 									{unfinishedTasks.length ? (
 										<div className='truncate' style={{ maxWidth: "300px" }}>
 											{`${unfinishedTasks.map((o) => o.name)}`}
 										</div>
-									) : null}
-									{/* {unfinishedTasks.length
-										? `${unfinishedTasks[0].name}, 
-									unfinishedTasks[1].name},
-									and ${unfinishedTasks.length && unfinishedTasks.length - 2} other...`
-										: "Horray, no task!"} */}
+									) : "Horray, no tasks!"}
 								</p>
 								<div className='bottom-right'>
-									<Button className='btn-primary btn-sm'>Go to Tasks</Button>
+									<Button
+										onClick={() => history.push("/tasks")}
+										className='btn-primary btn-sm'>
+										Go to Tasks
+									</Button>
 								</div>
 							</Col>
-							<Col sm className='d-flex flex-column'>
+							<Col sm className='d-flex flex-column my-1'>
 								<h1>{`${unfinishedAgendas.length} Agenda(s)`}</h1>
 								<p className='truncate'>
-									{unfinishedAgendas.length
+									{/* {unfinishedAgendas.length
 										? `${unfinishedAgendas[0].name}, 
 									unfinishedAgendas[1].name},
 									and ${unfinishedAgendas.length && unfinishedAgendas.length - 2} other...`
-										: "Horray, no agenda!"}
+										: "Horray, no agenda!"} */}
+									{unfinishedAgendas.length ? (
+										<div className='truncate' style={{ maxWidth: "300px" }}>
+											{`${unfinishedAgendas.map((o) => o.name)}`}
+										</div>
+									) : "Horray, no agenda!"}
 								</p>
 								<div className='bottom-right'>
-									<Button className='btn-primary btn-sm'>Go to Agendas</Button>
+									<Button
+										onClick={() => history.push("/agendas")}
+										className='btn-primary btn-sm'>
+										Go to Agendas
+									</Button>
 								</div>
 							</Col>
 						</Row>
