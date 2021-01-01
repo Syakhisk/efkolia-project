@@ -12,6 +12,7 @@ import Timetable from "./components/Timetable";
 import Profile from "./components/Profile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Landing from "./components/Landing";
 import NotFound from "./components/NotFound";
 
@@ -21,6 +22,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Sidebar from "./components/Sidebar";
 import AuthProvider from "./contexts/AuthContext";
 import "./styles/app.scss";
+
 
 function App() {
 	const [collapsed, setCollapsed] = useState(true);
@@ -43,6 +45,7 @@ function App() {
 			<Route path='/landing' component={Landing}></Route>
 			<Route path='/login' component={Login}></Route>
 			<Route path='/signup' component={Signup}></Route>
+			<Route path='/logout' component={Logout}></Route>
 			<PrivateRoute
 				path='/dashboard'
 				collapsed={collapsed}
@@ -91,7 +94,7 @@ function App() {
 						handleToggleSidebar={handleToggleSidebar}
 						toggled={toggled}
 					/>
-					<main style={{overflowX: "auto"}}>{renderedRouting}</main>
+					<main style={{ overflowX: "auto" }}>{renderedRouting}</main>
 				</div>
 			</div>
 		</AuthProvider>

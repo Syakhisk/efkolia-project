@@ -73,6 +73,7 @@ function EntryModal(props) {
 				if (type === "add") {
 					const addedType = await addEntry(formData.entryType, data);
 					setDialog(`Added new ${addedType}: ${data.name}!`);
+					window.alert("Reload the page if you don't see any update!");
 				} else if (type === "edit") {
 					const oldData = dataItem;
 					const addedType = await updateEntry(

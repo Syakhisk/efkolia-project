@@ -5,13 +5,14 @@ import CompletionStatus from "./CompletionStatus";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import EntryModal from "./EntryModal";
+import { BsFillTrashFill } from "react-icons/bs";
 
 function Tasks(props) {
 	const {
 		match: { params },
 	} = props;
 	const history = useHistory();
-	const { currentUser } = useAuth();
+	const { currentUser, removeEntry } = useAuth();
 	const { tasks, classes } = currentUser;
 	const [selectedClassCode, setSelectedClassCode] = useState(params.classCode);
 	const [selectedClass, setSelectedClass] = useState({});
@@ -29,6 +30,18 @@ function Tasks(props) {
 	const handleEdit = (item) => {
 		setModalData(item);
 		setModalShow(true);
+	};
+	const handleRemove = async (item) => {
+		if (window.confirm(`Are you sure you wish to delete ${item.name}`)) {
+			try {
+				const type = item.classCode ? "task" : "agenda";
+				await removeEntry(type, item);
+				window.alert(`Successfully deleted ${item.name}`);
+			} catch (error) {
+				console.log(error);
+				window.alert(`Failed to delete task/agenda\n code:${error.code}`);
+			}
+		}
 	};
 
 	const renderedModal = modalShow ? (
@@ -98,12 +111,20 @@ function Tasks(props) {
 					</div>
 				</td>
 				<td>{taskItem.deadline}</td>
-				<td>
+				<td className='d-flex'>
 					<Button
+						className='mx-1 p-1'
 						onClick={() => handleEdit(taskItem)}
 						variant='outline-secondary'
 						block>
 						Edit
+					</Button>
+					<Button
+						className='m-0 mx-1 p-1'
+						onClick={() => handleRemove(taskItem)}
+						variant='outline-danger'
+						block>
+						<BsFillTrashFill />
 					</Button>
 				</td>
 			</tr>

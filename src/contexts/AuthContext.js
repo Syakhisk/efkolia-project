@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth, db, FieldValue } from "../firebase";
+import { useWindowSize } from "../hooks/useWindowSize";
 // eslint-disable-next-line
 
 const AuthContext = React.createContext();
@@ -10,6 +11,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 	const [currentUser, setCurrentUser] = useState();
+
 	// eslint-disable-next-line
 	const [loading, setLoading] = useState(true);
 
@@ -60,6 +62,16 @@ export function AuthProvider({ children }) {
 		return type;
 	}
 
+	async function removeEntry(type, data) {
+		const user = db.collection("users").doc(currentUser.docId);
+		if (type === "task") {
+			await user.update({ tasks: FieldValue.arrayRemove(data) });
+		} else if (type === "agenda") {
+			await user.update({ agendas: FieldValue.arrayRemove(data) });
+		}
+		return type;
+	}
+
 	async function updateEntry(type, newData, oldData) {
 		const user = db.collection("users").doc(currentUser.docId);
 		if (type === "task") {
@@ -82,8 +94,13 @@ export function AuthProvider({ children }) {
 		await user.update({ classes: FieldValue.arrayUnion(data) });
 	}
 
-	async function removeClass(data) {
+	async function removeClass(data, classTasks) {
 		const user = db.collection("users").doc(currentUser.docId);
+		if (classTasks) {
+			for (let task of classTasks) {
+				await user.update({ tasks: FieldValue.arrayRemove(task) });
+			}
+		}
 		await user.update({ classes: FieldValue.arrayRemove(data) });
 	}
 
@@ -156,6 +173,7 @@ export function AuthProvider({ children }) {
 		login,
 		logout,
 		addEntry,
+		removeEntry,
 		updateEntry,
 		addClass,
 		removeClass,

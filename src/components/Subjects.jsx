@@ -9,7 +9,7 @@ import AddNewClass from "./AddNewClass";
 
 function Subjects() {
 	const { currentUser, removeClass } = useAuth();
-	const { classes } = currentUser;
+	const { classes, tasks } = currentUser;
 	const [modalShow, setModalShow] = useState(false);
 
 	const getFullDayName = (short) => {
@@ -22,8 +22,12 @@ function Subjects() {
 				`Are you sure to delete the '${classItem.className}' class?`
 			)
 		) {
+			const classTasks = tasks.filter(
+				(el) => el.classCode == classItem.classCode
+			);
 			try {
-				removeClass(classItem);
+				removeClass(classItem, classTasks);
+				window.location.reload();
 			} catch (err) {
 				console.log(err);
 			}
