@@ -117,8 +117,9 @@ function AddNewClass(props) {
 							"Friday",
 							"Saturday",
 							"Sunday",
-						].map((dayItem) => (
+						].map((dayItem, idx) => (
 							<option
+								key={idx}
 								value={moment(dayItem, "dddd").format("ddd").toLowerCase()}>
 								{dayItem}
 							</option>

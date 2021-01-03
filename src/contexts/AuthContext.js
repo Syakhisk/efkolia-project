@@ -97,7 +97,7 @@ export function AuthProvider({ children }) {
 	async function removeClass(data, classTasks) {
 		const user = db.collection("users").doc(currentUser.docId);
 		if (classTasks) {
-			for (let task of classTasks) {
+			for await (let task of classTasks) {
 				await user.update({ tasks: FieldValue.arrayRemove(task) });
 			}
 		}

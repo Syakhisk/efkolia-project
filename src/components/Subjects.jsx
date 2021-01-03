@@ -16,7 +16,7 @@ function Subjects() {
 		return moment(short, "ddd").format("dddd");
 	};
 
-	const handleConfirm = (classItem) => {
+	const handleConfirm = async (classItem) => {
 		if (
 			window.confirm(
 				`Are you sure to delete the '${classItem.className}' class?`
@@ -26,7 +26,7 @@ function Subjects() {
 				(el) => el.classCode == classItem.classCode
 			);
 			try {
-				removeClass(classItem, classTasks);
+				await removeClass(classItem, classTasks);
 				window.location.reload();
 			} catch (err) {
 				console.log(err);
