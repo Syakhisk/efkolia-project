@@ -68,6 +68,7 @@ function Timetable() {
 						"Monday",
 						"Tuesday",
 						"Wednesday",
+						"Thursday",
 						"Friday",
 						"Saturday",
 						"Sunday",
