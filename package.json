@@ -8,11 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "^2.16.0",
+    "bcrypt": "^5.0.0",
     "next": "10.0.6",
+    "next-auth": "^3.2.0",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-hook-form": "^6.15.1",
+    "react-pro-sidebar": "^0.5.0"
   },
   "devDependencies": {
+    "@prisma/cli": "^2.16.0",
     "postcss": "^8.2.5",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^2.0.2"
