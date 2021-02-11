@@ -1,14 +1,24 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
-	purge: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
+	// purge: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
 	darkMode: "class", // or 'media' or 'class'
 	theme: {
 		extend: {
 			colors: {
-				green: {
-					900: "#002b36",
-					600: "#073642",
-					300: "#26958e",
+				brand: {
+					lighter: "#36B5A2",
+					light: "#24908A",
+					DEFAULT: "#007379",
+					dark: "#073642",
+					darker: "#002B36",
 				},
+				muted: colors.gray[300],
+			},
+			spacing: {
+				sidebar: "20rem",
+				"sidebar-collapsed": "5rem",
+				navbar: "4rem",
 			},
 		},
 		fontFamily: {
@@ -16,11 +26,14 @@ module.exports = {
 		},
 	},
 	variants: {
-		extend: {},
+		extend: {
+			animation: ["group-hover", "hover", "focus"],
+			fontWeight: ["group-hover", "hover", "focus"],
+		},
 	},
 	plugins: [],
-	future: {
-		removeDeprecatedGapUtilities: true,
-		purgeLayersByDefault: true,
-	},
+	// future: {
+	// 	removeDeprecatedGapUtilities: true,
+	// 	purgeLayersByDefault: true,
+	// },
 };
