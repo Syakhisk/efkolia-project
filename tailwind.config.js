@@ -1,12 +1,14 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-	// purge: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
+	purge: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
 	darkMode: "class", // or 'media' or 'class'
 	theme: {
 		extend: {
+			screens: {
+				mobile: { max: "767px" },
+			},
 			colors: {
-				test: "#fff",
 				brand: {
 					lighter: "#36B5A2",
 					light: "#24908A",
@@ -18,7 +20,7 @@ module.exports = {
 			},
 			spacing: {
 				sidebar: "20rem",
-				"sidebar-collapsed": "5rem",
+				"sidebar-collapsed": "78px",
 				navbar: "4rem",
 			},
 		},

@@ -1,22 +1,34 @@
 import { useRouter } from "next/router";
 import cntl from "cntl";
+import { BsLayoutTextSidebarReverse as BsSidebar } from "react-icons/bs";
+import { MdMenu } from "react-icons/md";
 
-const Navbar = () => {
+const Navbar = (props) => {
 	const router = useRouter();
 
+	const { show, setShow } = props;
+
 	const navbarCN = cntl`
+	flex items-center
 	sticky top-0 
-	flex items-center 
 	w-full h-navbar 
 	dark:bg-brand-dark bg-brand 
 	text-xl text-white 
 	px-5 py-5
+	transition-all duration-300
 	`;
 
 	return (
 		<div className={navbarCN}>
-			<span className='flex-grow'>{router.pathname}</span>
-			<div className='div'></div>
+			<div
+				role='button'
+				onClick={() => setShow(!show)}
+				className='hidden mobile:block'>
+				<BsSidebar />
+			</div>
+			<div className='flex flex-grow mobile:justify-center mobile:ml-0'>
+				<span>{router.pathname}</span>
+			</div>
 			<div className='h-full'>
 				<svg
 					role='button'
