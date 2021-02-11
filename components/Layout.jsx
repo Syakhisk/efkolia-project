@@ -53,13 +53,13 @@ const Layout = (props) => {
 			</Head>
 
 			{/* -------------------------delete diz!------------------ */}
-			{/* <div className='w-full mb-3'>
+			<div className='w-full mb-3'>
 				<button
 					className='w-full focus:outline-none px-4 bg-gray-300 text-gray-700 dark:text-white dark:bg-gray-900'
 					onClick={() => toggleTheme()}>
 					Toggle Dark Mode
 				</button>
-			</div> */}
+			</div>
 			{/* -------------------------delete diz!------------------ */}
 
 			{!bare ? (
